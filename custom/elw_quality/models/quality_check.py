@@ -36,7 +36,7 @@ class ElwQualityCheck(models.Model):
     test_type = fields.Char(related='point_id.test_type', string="Test Type Name")
     alert_count = fields.Integer(default=0, compute="_compute_alert_cnt")
     alert_ids = fields.One2many('elw.quality.alert', 'check_id', string="Alerts")
-    alert_result = fields.Char(compute="_compute_alert_result", string='QA Result')
+    alert_result = fields.Char(compute="_compute_alert_result", string='Quality Check Result')
     fail_and_not_alert_created = fields.Boolean(string='fail_and_not_alert_created',
                                                 compute='_compute_fail_and_not_alert_created', store=True)
 

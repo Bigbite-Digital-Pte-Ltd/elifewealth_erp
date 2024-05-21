@@ -25,9 +25,6 @@ class Picking(models.Model):
     categ_id = fields.Many2one('product.category', 'Product Category', related='product_id.categ_id', store=True)
     # to do, delete this field when using a new db
 
-    # may delete 'state'
-    # state = fields.Selection(selection_add=[('quality_check', 'Quality Check')])
-
     # picking_id is 1st defined in stock.move and define in elw.quality.check
     check_ids = fields.Many2many('elw.quality.check', 'picking_id', string="Quality Checks References", store=True)
 
@@ -38,7 +35,8 @@ class Picking(models.Model):
     quality_alert_ids = fields.One2many('elw.quality.alert', 'picking_id', string="Alerts", store=True)
     quality_alert_count = fields.Integer(string="Quality Alert Count", compute="_compute_quality_alert_count")
     quality_alert_open_count = fields.Integer(string="Quality Alert Open Count", compute="_compute_quality_alert_count")
-    is_all_quality_fails_resolved = fields.Boolean(compute="_compute_is_all_quality_fails_resolved")
+    is_all_quality_fails_resolved = fields.Boolean(compute="_compute_is_all_quality_fails_resolved",
+                                                   string="All passed or all failed resolved?")
 
     quality_check_fail = fields.Boolean(string="Quality Check Fail", compute="_compute_quality_check_fail")
     quality_state = fields.Selection([('none', 'To Do'), ('pass', 'Passed'), ('fail', 'Failed')], )
@@ -125,6 +123,7 @@ class Picking(models.Model):
             vals = {}
             qa_check_product_ids_buf = []  # product_ids.ids
             qa_check_point_ids_buf = []
+            qa_check_ids_buf = []
             # get all products in the delivery order
             delivery_product_ids = []
             picking_obj = rec.filtered(lambda p: p.state == 'assigned')  # assigned = Ready
@@ -135,7 +134,7 @@ class Picking(models.Model):
             if len(qa_checkpoint_lists) and rec.picking_type_id.id is not None:
                 # qa_check_ids is a many2many field
                 for qa_checkpoint_list in qa_checkpoint_lists:
-                    #  first check if picking_type_id is found in picking_type_ids of elw.quality.point
+                    #  first check if picking_type_id (delivery or reciept) is found in picking_type_ids of elw.quality.point
                     if rec.picking_type_id.id in qa_checkpoint_list.picking_type_ids.ids:  # picking_type_ids.ids : [1,2]
                         qa_product_ids_obj = rec.env['elw.quality.point'].browse(qa_checkpoint_list.id)
                         # print("qa_product_ids ========", qa_product_ids_obj.product_ids.ids, qa_checkpoint_list.id,
@@ -149,33 +148,25 @@ class Picking(models.Model):
                                 vals['picking_id'] = rec.id
                                 vals['quality_state'] = 'none'
                                 vals['partner_id'] = rec.partner_id.id
+                                vals['point_id'] = qa_product_ids_obj.id
                                 qa_check_product_ids_buf.append(qa_product_id)
-                                qa_check_point_ids_buf.append(qa_product_ids_obj.id)
-                                print("Found: qa_product_id, partner_id, rec.picking_type_id.id----------",
-                                      qa_product_id, rec.partner_id, rec.id, rec.name, rec.picking_type_id.id,
-                                      rec.picking_type_id.name)
+                                # qa_check_point_ids_buf.append(qa_product_ids_obj.id)
+                                # print("Found: qa_product_id, partner_id, rec.picking_type_id.id----------",
+                                #       qa_product_id, rec.partner_id, rec.id, rec.name, rec.picking_type_id.id,
+                                #       rec.picking_type_id.name)
                                 # len(qa_check_product_ids) can be >1
-                                vals['product_id'] = qa_check_product_ids_buf
-                                vals['point_id'] = qa_check_point_ids_buf
+                                vals['product_id'] = qa_product_id
+                                # vals['point_id'] = qa_product_ids_obj.id
+                                team_id = self.find_team_id()
+                                vals['team_id'] = team_id
+                                # print("vals -----", vals)
+                                qa_check_rec = self._create_qa_check_record(vals)
+                                qa_check_ids_buf.append(qa_check_rec.id)
 
                 rec.qa_check_product_ids = self.env['product.product'].browse(qa_check_product_ids_buf)
-                return vals
+                rec.check_ids = self.env['elw.quality.check'].browse(qa_check_ids_buf)
+                rec.quality_state = 'none'
 
-    # parse vals and return result list consisting of new_val elements
-    @api.depends('qa_check_product_ids')
-    def _parse_vals(self):
-        vals = self._compute_qa_check_product_ids()
-        results = []
-        # print("vals-------", vals)#vals------- {'picking_id': 24, 'quality_state': 'none', 'partner_id': 47, 'product_id': [5, 31], 'point_id': [2, 1]}
-        for i in range(max(len(vals['product_id']), len(vals['point_id']))):
-            new_val = {}
-            for key, value in vals.items():
-                if isinstance(value, list):
-                    new_val[key] = value[i] if i < len(value) else None
-                else:
-                    new_val[key] = value
-            results.append(new_val)
-        return results
 
     # Create a record in quality.check
     def _create_qa_check_record(self, vals):
@@ -191,13 +182,12 @@ class Picking(models.Model):
         #       qa_check_popup_wizard_rec.name)
         return qa_check_popup_wizard_rec
 
-    @api.depends('qa_check_product_ids', 'check_ids', 'partner_id', 'quality_state', 'quality_alert_ids',
-                 'quality_alert_open_count', 'quality_check_ids')
+    @api.depends('qa_check_product_ids', 'check_ids', 'partner_id', 'quality_check_ids')
     def _fill_in_vals_popup_after_popup(self):
         self.ensure_one()
         vals_popup = {'product_ids': self.qa_check_product_ids,
                       'check_ids': self.check_ids,
-                      'quality_state': self.quality_state,
+                      # 'quality_state': self.quality_state,
                       'partner_id': self.partner_id.id,
                       # 'quality_alert_ids': self.quality_alert_ids,
                       # 'quality_alert_open_count': self.quality_alert_open_count,
@@ -213,99 +203,34 @@ class Picking(models.Model):
         else:
             raise ValidationError(_("Sorry, Please Create a Quality Team First at 'Configurations|Quality Teams'! "))
 
-    # def find_lot_id(self):
-    #     lot_obj = self.env['stock.lot']
-    #     lot_search = lot_obj.search([])
-    #     if len(lot_search):
-    #         return lot_search[0].id
-    #     else:
-    #         raise ValidationError(_("Sorry, Please Create a Lot ID First at 'Products|Lot/Serial Numbers'! "))
-
-    @api.depends('check_ids', 'qa_check_product_ids')
-    def action_create_quality_check(self):
-        self.ensure_one()
-        # avoid creating duplicated records
-        # first time condition do, create records and popup
-        if not self.check_ids and self.qa_check_product_ids:
-            vals_popup = {'product_ids': [], 'check_ids': [], 'quality_state': 'none', 'partner_id': ''}
-            results = self._parse_vals()
-            # print("---------", results)
-
-            # create the elw.quality.check records, and assign vals_popup
-            for val in results:
-                # print("val =========", val.get('product_id'), val.get('team_id'))#val ========= 31 None
-                team_id = self.find_team_id()
-                val['team_id'] = team_id
-                # print("val =========", val)
-                qa_check_rec = self._create_qa_check_record(val)
-                vals_popup['product_ids'].append(val['product_id'])
-                vals_popup['check_ids'].append(qa_check_rec.id)
-                vals_popup['quality_state'] = 'none'
-                vals_popup['partner_id'] = (val['partner_id'])
-
-            self.check_ids = self.env['elw.quality.check'].browse(vals_popup['check_ids'])
-            qa_check_popup_wizard = self._create_qa_check_popup_wizard_record(vals_popup)
-
-            # print("self.check_ids, =========", self.check_ids, self.check_ids.id)
-            # print("val popup =========", qa_check_popup_wizard, qa_check_popup_wizard.id, qa_check_popup_wizard.name)
-            show_name = 'Created Quality Check on Delivery: ' + self.name
-            return {
-                # 'name': _('Quality Check'),
-                'name': show_name,
-                'type': 'ir.actions.act_window',
-                'view_mode': 'form',
-                'res_model': 'elw.quality.check.popup.wizard',
-                'view_type': 'form',
-                'res_id': qa_check_popup_wizard.id,
-                # 'domain': [('check_ids', '=', self.check_ids)],
-                # 'views': [(view.id, 'form')],
-                # 'view_id': view.id,
-                'target': 'new',
-                'context': dict(
-                    self.env.context,
-                ),
-            }
-
     # display the created quality.check record
     @api.depends('check_ids', 'qa_check_product_ids')
     def action_quality_check(self):
         self.ensure_one()
-        if self.check_ids:
-            vals_popup = self._fill_in_vals_popup_after_popup()
-
-            print("action_quality_check vals_popup ", vals_popup)
-            qa_check_popup_wizard = self._create_qa_check_popup_wizard_record(vals_popup)
-
-            show_name = 'Status of Quality Check on Delivery: ' + self.name
+        if self.qa_check_product_ids:
             return {
-                'name': show_name,
-                'res_model': 'elw.quality.check.popup.wizard',
-                'res_id': qa_check_popup_wizard.id,
+                'name': _('Quality Check'),
+                'res_model': 'elw.quality.check',
+                # 'res_id': qa_check_rec.id,  # open the corresponding form
+                'domain': [('id', 'in', self.quality_check_ids.ids)],
                 'type': 'ir.actions.act_window',
-                'view_mode': 'form',
-                'view_id': self.env.ref('elw_quality.elw_quality_check_popup_form_view').id,
-                'target': 'new',
+                'view_mode': 'tree,form',
+                'target': 'current',
             }
         else:
-            raise ValidationError(_("Sorry, Please Click 'Quality Check' First! "))
+            raise ValidationError(_("Sorry, no Quality Check records found "))
 
     def button_eval(self):
         print("eval btn ------")
 
-    @api.depends('check_ids', 'quality_state', 'qa_check_product_ids', 'quality_alert_open_count', 'quality_alert_ids',
-                 'quality_check_fail')
+    @api.depends('check_ids', 'quality_state', 'qa_check_product_ids', 'quality_check_fail')
     def button_validate(self):
         self.ensure_one()
-        # print("trigger here-----self.quality_alert_open_count----", self.quality_alert_open_count)
-        if not self.check_ids and self.qa_check_product_ids:  # before getting the 1st popup
-            raise ValidationError(
-                _("Sorry, Quality Records have not been created! Please Click 'Create QA Check Record'."))
-        # after 1st popup window
-        elif self.check_ids and not self.is_all_quality_fails_resolved:
+
+        if not self.is_all_quality_fails_resolved:
             vals_popup = self._fill_in_vals_popup_after_popup()
-            # print("vals_popup ", vals_popup)
+            # print("button_validation vals_popup ", vals_popup)
             qa_check_popup_wizard = self._create_qa_check_popup_wizard_record(vals_popup)
-            # print("self.check_ids.quality_state", self.quality_state)  # self.check_ids.quality_state pass
 
             show_name = 'Status of Quality Check on Delivery: ' + self.name
             return {
@@ -324,7 +249,8 @@ class Picking(models.Model):
     @api.depends('check_ids', 'quality_check_fail')
     def do_alert(self):
         self.ensure_one()
-        if self.check_ids and self.quality_check_fail:
+        print("self.check_ids and self.quality_alert_ids", self.check_ids, self.quality_alert_ids)
+        if self.check_ids and self.quality_alert_ids:
             vals_popup = self._fill_in_vals_popup_after_popup()
             print("do_alert vals_popup ", vals_popup)
             qa_check_popup_wizard = self._create_qa_check_popup_wizard_record(vals_popup)
