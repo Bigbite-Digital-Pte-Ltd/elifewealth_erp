@@ -41,15 +41,16 @@ class ElwQualityCheck(models.Model):
                                                 compute='_compute_fail_and_not_alert_created', store=True)
 
     picture = fields.Binary(string="Picture", store=True)
-    # check if an alert is created on 'fail' record
-    def _compute_fail_and_not_alert_created(self):
-        for rec in self:
-            rec.fail_and_not_alert_created = True if rec.quality_state == 'fail' and not rec.alert_ids else False
-            print("----------", rec.fail_and_not_alert_created)
-
     # for notebook
     additional_note = fields.Text('Note')
     note = fields.Html('Instructions')
+
+    # check if an alert is created on 'fail' record
+    @api.depends('alert_ids', 'quality_state')
+    def _compute_fail_and_not_alert_created(self):
+        for rec in self:
+            rec.fail_and_not_alert_created = True if rec.quality_state == 'fail' and not rec.alert_ids else False
+            # print("----------", rec.fail_and_not_alert_created)
 
     # Check if this product has lot or serial
     @api.depends('product_id')
@@ -63,7 +64,7 @@ class ElwQualityCheck(models.Model):
             # print("rec.........", rec, rec.id, rec.name)
             rec.alert_count = self.env['elw.quality.alert'].search_count([('check_id', '=', rec.name)])
 
-    @api.depends('alert_ids')
+    @api.depends('alert_ids', 'quality_state')
     def _compute_alert_result(self):
         for rec in self:
             if rec.quality_state == 'fail':
@@ -97,11 +98,13 @@ class ElwQualityCheck(models.Model):
         rtn = super(ElwQualityCheck, self).write(vals)
         return rtn
 
+    @api.depends('quality_state')
     def do_pass(self):
         for rec in self:
             if rec.quality_state == 'none':
                 rec.quality_state = 'pass'
 
+    @api.depends('quality_state')
     def do_fail(self):
         for rec in self:
             if rec.quality_state == 'none':
@@ -110,10 +113,11 @@ class ElwQualityCheck(models.Model):
     def do_measure(self):
         pass
 
+    @api.model
     def _create_qa_alert_record(self, vals):
         self.ensure_one()
         qa_alert_rec = self.env['elw.quality.alert'].create(vals)
-        print("created qa_alert_rec--------", qa_alert_rec, qa_alert_rec.id, qa_alert_rec.name)
+        # print("created qa_alert_rec--------", qa_alert_rec, qa_alert_rec.id, qa_alert_rec.name)
         return qa_alert_rec
 
     def do_alert(self):
@@ -177,4 +181,3 @@ class ElwQualityCheck(models.Model):
             result['res_id'] = alerts.id
             # print("result--------", result)
         return result
-

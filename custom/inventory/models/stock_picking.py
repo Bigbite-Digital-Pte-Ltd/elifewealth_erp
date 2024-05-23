@@ -167,7 +167,6 @@ class Picking(models.Model):
                 rec.check_ids = self.env['elw.quality.check'].browse(qa_check_ids_buf)
                 rec.quality_state = 'none'
 
-
     # Create a record in quality.check
     def _create_qa_check_record(self, vals):
         self.ensure_one()
@@ -195,6 +194,7 @@ class Picking(models.Model):
                       }
         return vals_popup
 
+    @api.model
     def find_team_id(self):
         team_obj = self.env['elw.quality.team']
         team_search = team_obj.search([])
@@ -220,10 +220,7 @@ class Picking(models.Model):
         else:
             raise ValidationError(_("Sorry, no Quality Check records found "))
 
-    def button_eval(self):
-        print("eval btn ------")
-
-    @api.depends('check_ids', 'quality_state', 'qa_check_product_ids', 'quality_check_fail')
+    @api.depends('is_all_quality_fails_resolved', 'qa_check_product_ids')
     def button_validate(self):
         self.ensure_one()
 
@@ -246,13 +243,13 @@ class Picking(models.Model):
             return super(Picking, self).button_validate()
 
     # display a message with product_ids, check_ids do_alert, to reminder the user to create QA alert
-    @api.depends('check_ids', 'quality_check_fail')
+    @api.depends('check_ids', 'quality_alert_ids')
     def do_alert(self):
         self.ensure_one()
-        print("self.check_ids and self.quality_alert_ids", self.check_ids, self.quality_alert_ids)
+        # print("self.check_ids and self.quality_alert_ids", self.check_ids, self.quality_alert_ids)
         if self.check_ids and self.quality_alert_ids:
             vals_popup = self._fill_in_vals_popup_after_popup()
-            print("do_alert vals_popup ", vals_popup)
+            # print("do_alert vals_popup ", vals_popup)
             qa_check_popup_wizard = self._create_qa_check_popup_wizard_record(vals_popup)
             # print("self.check_ids.quality_state", self.quality_state)  # self.check_ids.quality_state pass
 
