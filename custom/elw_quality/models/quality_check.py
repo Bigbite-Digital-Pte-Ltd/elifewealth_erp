@@ -40,6 +40,7 @@ class ElwQualityCheck(models.Model):
     fail_and_not_alert_created = fields.Boolean(string='fail_and_not_alert_created',
                                                 compute='_compute_fail_and_not_alert_created', store=True)
 
+    picture = fields.Binary(string="Picture", store=True)
     # check if an alert is created on 'fail' record
     def _compute_fail_and_not_alert_created(self):
         for rec in self:
