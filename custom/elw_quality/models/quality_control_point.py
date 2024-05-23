@@ -27,7 +27,7 @@ class ElwQualityPoint(models.Model):
 
     title = fields.Char("Title")
     product_ids = fields.Many2many('product.product', string="Products", domain="[('type','in',('product','consu'))]",
-                                   store=True)
+                                   store=True, compute="_get_product_from_category", readonly=False)
     product_category_ids = fields.Many2many('product.category', string="Product Categories", store=True)
     picking_type_ids = fields.Many2many('stock.picking.type', string='Operations', store=True, copy=True, required=True)
     active = fields.Boolean(default=True)
@@ -54,6 +54,12 @@ class ElwQualityPoint(models.Model):
 
     # for notebook
     note = fields.Html('Note')
+
+    @api.depends('product_category_ids')
+    def _get_product_from_category(self):
+        for rec in self:
+            if rec.product_category_ids and not rec.product_ids:
+                rec.product_ids = self.env['product.product'].search([('categ_id', 'in', rec.product_category_ids.ids)])
 
     @api.model_create_multi
     def create(self, vals):
