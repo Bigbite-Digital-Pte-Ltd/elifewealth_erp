@@ -227,7 +227,7 @@ class Picking(models.Model):
     def button_validate(self):
         self.ensure_one()
 
-        if not self.is_all_quality_fails_resolved:
+        if not self.is_all_quality_fails_resolved and self.qa_check_product_ids:
             vals_popup = self._fill_in_vals_popup_after_popup()
             # print("button_validation vals_popup ", vals_popup)
             qa_check_popup_wizard = self._create_qa_check_popup_wizard_record(vals_popup)
