@@ -27,19 +27,20 @@ class ElwQualityPoint(models.Model):
 
     title = fields.Char("Title")
     product_ids = fields.Many2many('product.product', string="Products", domain="[('type','in',('product','consu'))]",
-                                   store=True, compute="_get_product_from_category", readonly=False)
-    product_category_ids = fields.Many2many('product.category', string="Product Categories", store=True)
+                                   store=True, compute="_get_product_from_category", readonly=False,
+                                   help="Quality Point will apply to every selected Products.")
+    product_category_ids = fields.Many2many('product.category', string="Product Categories", store=True,
+                                            help="Quality Point will apply to every Products in the selected Product Categories.")
     picking_type_ids = fields.Many2many('stock.picking.type', string='Operations', store=True, copy=True, required=True)
     active = fields.Boolean(default=True)
     user_id = fields.Many2one('res.users', string='Responsible', ondelete='set null')
     measure_on = fields.Selection([('operation', 'Operation'), ('product', 'Product'), ('move_line', 'Quantity')],
                                   required=True, string='Control per',
-                                  help='Product = A quality check is requested per product.',
-                                  #  Operation = One quality check is requested at the operation level.
-                                  # ' Quantity = A quality check is requested for each new product quantity registered,'
-                                  # 'with partial quantity checks also possible.'
-                                  default='operation',
-                                  )
+                                  help='Product = A quality check is requested per product.'
+                                       ' Operation = One quality check is requested at the operation level.'
+                                       ' Quantity = A quality check is requested for each new product quantity registered,'
+                                       'with partial quantity checks also possible.',
+                                  default='operation')
     measure_frequency_type = fields.Selection([('all', 'All'), ('random', 'Randomly'), ('periodical', 'Periodically')],
                                               required=True, string='Control Frequency Type', default='all')
     measure_frequency_value = fields.Float(string="Control Frequency Value", store=True, copy=True)
@@ -48,7 +49,8 @@ class ElwQualityPoint(models.Model):
     measure_frequency_unit_value = fields.Integer(store=True, copy=True)
 
     test_type_id = fields.Many2one('elw.quality.test.type', required=True, string='Test Type',
-                                   default=_default_test_type_id, ondelete='restrict')
+                                   default=_default_test_type_id, ondelete='restrict', store=True,
+                                   help="Defines the type of the quality control point.")
     team_id = fields.Many2one('elw.quality.team', string='Team', ondelete='restrict')
     test_type = fields.Char(related="test_type_id.technical_name", string='Test Type in str')
 

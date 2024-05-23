@@ -19,11 +19,15 @@ class ElwQualityCheck(models.Model):
     active = fields.Boolean(default=True)
     point_id = fields.Many2one('elw.quality.point', string='Control Point ID', ondelete='set null')
 
-    partner_id = fields.Many2one('res.partner', string='Partner', ondelete='cascade')
+    partner_id = fields.Many2one('res.partner', string='Partner', ondelete='cascade', readonly=True)
     product_id = fields.Many2one('product.product', string='Product', store=True,
                                  domain="[('type', 'in', ['product', 'consu'])]", ondelete='set null')
     picking_id = fields.Many2one('stock.picking', string='Picking', store=True, ondelete='set null')
-    measure_on = fields.Selection(related='point_id.measure_on', string='Control per')
+    measure_on = fields.Selection(related='point_id.measure_on', string='Control per', required=True, store=True,
+                                  help='Product = A quality check is requested per product.'
+                                       ' Operation = One quality check is requested at the operation level.'
+                                       ' Quantity = A quality check is requested for each new product quantity registered,'
+                                       'with partial quantity checks also possible.', )
     lot_id = fields.Many2one('stock.lot', string='Lot/Serial', domain="[('product_id', '=', product_id)]", store=True,
                              ondelete='restrict')
     has_lot_id = fields.Boolean(string='Has Lot ids', compute="_compute_has_lot_id")
