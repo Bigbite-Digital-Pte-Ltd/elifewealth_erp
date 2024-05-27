@@ -17,6 +17,7 @@ class ElwQualityCheck(models.Model):
         readonly=True, required=True,
         help='The company is automatically set from your user preferences.')
     active = fields.Boolean(default=True)
+    title = fields.Char("Title")
     point_id = fields.Many2one('elw.quality.point', string='Control Point ID', ondelete='set null')
 
     partner_id = fields.Many2one('res.partner', string='Partner', ondelete='cascade', readonly=True)
