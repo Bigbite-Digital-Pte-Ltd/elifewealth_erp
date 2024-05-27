@@ -66,6 +66,9 @@ class ElwQualityCheck(models.Model):
                     # print(one_measure_setting.id, one_measure_setting.name, one_measure_setting.measure_name,
                     #       one_measure_setting.upper_limit,
                     #       one_measure_setting.lower_limit)
+                    # set the measured_value=0 when loading the measure_data_ids from quality.point
+                    one_measure_setting.measured_value = 0
+                    one_measure_setting.within_tolerance = False
                     measure_ids.append(one_measure_setting.id)
 
                 rec.measure_data_ids = self.env['elw.quality.measure.spec'].browse(measure_ids)
