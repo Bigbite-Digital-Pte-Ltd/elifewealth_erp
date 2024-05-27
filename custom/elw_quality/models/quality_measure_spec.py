@@ -9,13 +9,13 @@ class QualityMeasureSpec(models.Model):
     _order = 'name desc'
 
     active = fields.Boolean(default=True)
-    name = fields.Char('Sequence', size=6)
-    measure_name = fields.Char('Measure Name', required=True, translate=True, tracking=True, store=True)
+    name = fields.Char('Sequence', size=4, readonly=True)
+    measure_name = fields.Char('Measure Name', size=6, required=True, translate=True, tracking=True, store=True)
     target_value = fields.Float(string="Target Value")
     measured_value = fields.Float(string="Measured Value", tracking=True, store=True)
-    target_value_unit = fields.Char(string="Unit", size=8, tracking=True, store=True)
-    upper_limit = fields.Float(string="Upper Limit", tracking=True, store=True)
-    lower_limit = fields.Float(string="Lower Limit", tracking=True, store=True)
+    target_value_unit = fields.Char(string="Unit", size=4, tracking=True, required=True, store=True)
+    upper_limit = fields.Float(string="Upper Limit", tracking=True, required=True, store=True)
+    lower_limit = fields.Float(string="Lower Limit", tracking=True, required=True, store=True)
     within_tolerance = fields.Boolean('Within Tolerance?', size=4, default=False, tracking=True, store=True)
     point_id = fields.Many2one('elw.quality.point', 'Quality Control Point')
     product_id = fields.Many2one('product.product', string="Products", domain="[('type','in',('product','consu'))]",
