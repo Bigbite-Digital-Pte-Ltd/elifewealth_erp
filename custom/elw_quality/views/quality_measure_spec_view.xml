@@ -1,17 +1,33 @@
 <odoo>
-    <!-- elw.quality.reason-->
+    <!-- elw.quality.measure.spec search-->
+    <record model="ir.ui.view" id="elw_quality_measure_spec_search_view">
+            <field name="name">elw.quality.check.measure.spec.view</field>
+            <field name="model">elw.quality.measure.spec</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="product_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Product" name="by_product" context="{'group_by': 'product_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    <!-- elw.quality.measure.spec tree-->
     <record model="ir.ui.view" id="elw_quality_measure_spec_tree_view">
         <field name="name">elw.quality.measure.spec.tree.view</field>
         <field name="model">elw.quality.measure.spec</field>
         <field name="arch" type="xml">
-            <tree string="Quality Measure Spec">
-                <field name="product_id"/>
+            <tree string="Quality Measure Spec" create="0" delete="0">
                 <field name="name"/>
+                <field name="active" invisible="1"/>
+                <field name="product_id"/>
                 <field name="target_value"/>
 <!--                <field name="measured_value"/>-->
                 <field name="target_value_unit"/>
                 <field name="upper_limit"/>
                 <field name="lower_limit"/>
+                <field name="date_created"/>
                 <!--                <field name="within_tolerance" optional="hide"/>-->
                 <!--                <field name="point_id" optional="hide"/>-->
             </tree>
@@ -23,7 +39,7 @@
         <field name="model">elw.quality.measure.spec</field>
         <field name="arch" type="xml">
             <!--readonly form-->
-            <form string="Quality Measure Spec Form" edit="0">
+            <form string="Quality Measure Spec Form" edit="0" create="0" delete="0">
                 <sheet>
                     <div class="oe_title">
                         <h3>
@@ -31,6 +47,7 @@
                         </h3>
                     </div>
                     <group>
+                        <field name="active" invisible="1"/>
                         <field name="product_id"/>
                         <field name="measure_name"/>
                         <field name="target_value"/>
@@ -38,6 +55,7 @@
                         <field name="target_value_unit"/>
                         <field name="upper_limit"/>
                         <field name="lower_limit"/>
+                        <field name="date_created"/>
                         <!--                <field name="within_tolerance" optional="hide"/>-->
                         <!--                <field name="point_id" optional="hide"/>-->
                     </group>

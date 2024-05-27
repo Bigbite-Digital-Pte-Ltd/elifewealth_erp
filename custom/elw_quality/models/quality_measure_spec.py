@@ -8,6 +8,7 @@ class QualityMeasureSpec(models.Model):
     _description = 'ELW Quality Measure Specification'
     _order = 'name desc'
 
+    active = fields.Boolean(default=True)
     name = fields.Char('Sequence', size=6)
     measure_name = fields.Char('Measure Name', required=True, translate=True, tracking=True, store=True)
     target_value = fields.Float(string="Target Value")
@@ -19,6 +20,7 @@ class QualityMeasureSpec(models.Model):
     point_id = fields.Many2one('elw.quality.point', 'Quality Control Point')
     product_id = fields.Many2one('product.product', string="Products", domain="[('type','in',('product','consu'))]",
                                  store=True, related="point_id.product_id")
+    date_created = fields.Date(string="Date Created", default=fields.Date.context_today)
 
     @api.onchange('measured_value')
     def onchange_measured_value(self):
