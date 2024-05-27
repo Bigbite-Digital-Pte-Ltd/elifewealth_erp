@@ -26,6 +26,9 @@ class ElwQualityPoint(models.Model):
         help='The company is automatically set from your user preferences.')
 
     title = fields.Char("Title")
+    product_id = fields.Many2one('product.product', string="Product", domain="[('type','in',('product','consu'))]",
+                                   store=True, readonly=False, ondelete="cascade",
+                                   help="Quality Point will apply to one selected Products.")
     product_ids = fields.Many2many('product.product', string="Products", domain="[('type','in',('product','consu'))]",
                                    store=True, compute="_get_product_from_category", readonly=False,
                                    help="Quality Point will apply to every selected Products.")

@@ -4,23 +4,58 @@
         <field name="name">elw.quality.measure.spec.tree.view</field>
         <field name="model">elw.quality.measure.spec</field>
         <field name="arch" type="xml">
-            <tree string="Quality Measure Spec" editable="bottom">
+            <tree string="Quality Measure Spec">
+                <field name="product_id"/>
                 <field name="name"/>
                 <field name="target_value"/>
-                <field name="measured_value"/>
+<!--                <field name="measured_value"/>-->
                 <field name="target_value_unit"/>
                 <field name="upper_limit"/>
                 <field name="lower_limit"/>
-                <field name="within_tolerance" optional="hide"/>
-                <field name="point_id" optional="hide"/>
+                <!--                <field name="within_tolerance" optional="hide"/>-->
+                <!--                <field name="point_id" optional="hide"/>-->
             </tree>
         </field>
     </record>
+
+    <record model="ir.ui.view" id="elw_quality_measure_spec_form_view">
+        <field name="name">elw.quality.measure.spec.form.view</field>
+        <field name="model">elw.quality.measure.spec</field>
+        <field name="arch" type="xml">
+            <!--readonly form-->
+            <form string="Quality Measure Spec Form" edit="0">
+                <sheet>
+                    <div class="oe_title">
+                        <h3>
+                            <field name="name" readonly="1"/>
+                        </h3>
+                    </div>
+                    <group>
+                        <field name="product_id"/>
+                        <field name="measure_name"/>
+                        <field name="target_value"/>
+<!--                        <field name="measured_value"/>-->
+                        <field name="target_value_unit"/>
+                        <field name="upper_limit"/>
+                        <field name="lower_limit"/>
+                        <!--                <field name="within_tolerance" optional="hide"/>-->
+                        <!--                <field name="point_id" optional="hide"/>-->
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
     <!-- actions opening views on models -->
     <record model="ir.actions.act_window" id="elw_quality_measure_spec_action_window">
         <field name="name">Quality Measure Specifications</field>
         <field name="res_model">elw.quality.measure.spec</field>
-        <field name="view_mode">tree</field>
+        <field name="view_mode">tree,form</field>
     </record>
 
 </odoo>

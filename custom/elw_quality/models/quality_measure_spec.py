@@ -17,6 +17,8 @@ class QualityMeasureSpec(models.Model):
     lower_limit = fields.Float(string="Lower Limit", tracking=True, store=True)
     within_tolerance = fields.Boolean('Within Tolerance?', size=4, default=False, tracking=True, store=True)
     point_id = fields.Many2one('elw.quality.point', 'Quality Control Point')
+    product_id = fields.Many2one('product.product', string="Products", domain="[('type','in',('product','consu'))]",
+                                 store=True, related="point_id.product_id")
 
     @api.onchange('measured_value')
     def onchange_measured_value(self):
