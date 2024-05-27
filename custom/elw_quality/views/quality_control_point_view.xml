@@ -57,7 +57,8 @@
                 <form>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button name="action_see_quality_checks" icon="fa-check" type="object" class="oe_stat_button">
+                            <button name="action_see_quality_checks" icon="fa-check" type="object"
+                                    class="oe_stat_button">
                                 <field name="quality_check_count" string="Quality Checks" widget="statinfo"/>
                             </button>
                         </div>
@@ -96,7 +97,6 @@
                                     <field name="measure_frequency_unit" nolable="1" class="oe_inline"
                                            default='days'/>
                                 </div>
-                                <field name="test_type" invisible="1"/>
                                 <field string="Type" name="test_type_id"
                                        options="{'no_open': True, 'no_create': True}"/>
                                 <field name="team_id" options="{'no_open': True, 'no_create': True}"/>
@@ -108,6 +108,20 @@
                             </page>
                             <page string="Message If Failure">
                                 <field name="note"/>
+                            </page>
+                            <page string="Measurement Setting" invisible="test_type_id !=5">
+                                <field name="measure_data_ids">
+                                    <tree string="Measure Settings " editable="top">
+                                        <field name="name"/>
+                                        <field name="measure_name"/>
+                                        <field name="target_value"/>
+                                        <field name="target_value_unit"/>
+                                        <field name="upper_limit"/>
+                                        <field name="lower_limit"/>
+                                        <field name="within_tolerance" optional="hide"/>
+                                        <field name="point_id" optional="hide"/>
+                                    </tree>
+                                </field>
                             </page>
                             <page string="Notes">
                                 <field name="note"
