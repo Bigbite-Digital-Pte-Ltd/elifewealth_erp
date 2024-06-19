@@ -9,4 +9,4 @@ class Employee(models.Model):
     phone = fields.Char(string='Phone')
     job_title = fields.Char(string='Job Title')
     department = fields.Many2one('hr.department', string='Department')
-
+    image = fields.Binary(string='Image')  # Added image field
