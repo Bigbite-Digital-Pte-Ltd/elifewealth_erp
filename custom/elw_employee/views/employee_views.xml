@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <!-- Define the form view for custom.employee -->
         <record model="ir.ui.view" id="view_employee_form">
             <field name="name">employee.form</field>
             <field name="model">custom.employee</field>
@@ -12,12 +13,14 @@
                             <field name="job_title"/>
                             <field name="department"/>
                             <field name="email"/>
+                            <field name="phone"/>
                         </group>
                     </sheet>
                 </form>
             </field>
         </record>
 
+        <!-- Define the tree view for custom.employee -->
         <record model="ir.ui.view" id="view_employee_tree">
             <field name="name">employee.tree</field>
             <field name="model">custom.employee</field>
@@ -27,16 +30,19 @@
                     <field name="job_title"/>
                     <field name="department"/>
                     <field name="email"/>
+                    <field name="phone"/>
                 </tree>
             </field>
         </record>
 
+        <!-- Define the action for custom.employee -->
         <record model="ir.actions.act_window" id="action_employee">
             <field name="name">Employees</field>
             <field name="res_model">custom.employee</field>
             <field name="view_mode">tree,form</field>
         </record>
 
+        <!-- Define menu items -->
         <menuitem id="menu_employee_root" name="Employees"/>
         <menuitem id="menu_employee_list" parent="menu_employee_root" name="Employee List" action="action_employee"/>
     </data>
