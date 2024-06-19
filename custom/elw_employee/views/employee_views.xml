@@ -13,10 +13,20 @@
                             <group>
                                 <field name="image" widget="image" class="oe_avatar" options="{'size': [90, 90]}" />
                                 <field name="name"/>
-                                <field name="job_title"/>
+                                <field name="work_email"/>
+                                <field name="work_phone"/>
+                                <field name="work_mobile"/>
                                 <field name="department"/>
-                                <field name="email"/>
-                                <field name="phone"/>
+                                <field name="gender"/>
+                                <field name="notes"/>
+                                <field name="marital_status"/>
+                                <field name="date_of_birth"/>
+                                <field name="nationality"/>
+                                <field name="identification_no"/>
+                                <field name="passport_no"/>
+                                <field name="visa_no"/>
+                                <field name="work_permit_no"/>
+                                <field name="visa_expire_date"/>
                             </group>
                         </group>
                     </sheet>
@@ -31,40 +41,61 @@
             <field name="arch" type="xml">
                 <tree string="Employees">
                     <field name="image" widget="image" options="{'size': [90, 90]}" />
-                    <field name="name"/>
-                    <field name="job_title"/>
-                    <field name="department"/>
-                    <field name="email"/>
-                    <field name="phone"/>
+                                <field name="name"/>
+                                <field name="work_email"/>
+                                <field name="work_phone"/>
+                                <field name="work_mobile"/>
+                                <field name="department"/>
+                                <field name="gender"/>
+                                <field name="notes"/>
+                                <field name="marital_status"/>
+                                <field name="date_of_birth"/>
+                                <field name="nationality"/>
+                                <field name="identification_no"/>
+                                <field name="passport_no"/>
+                                <field name="visa_no"/>
+                                <field name="work_permit_no"/>
+                                <field name="visa_expire_date"/>
                 </tree>
             </field>
         </record>
 
-        <!-- Define the kanban view for custom.employee -->
-        <record model="ir.ui.view" id="view_employee_kanban">
-            <field name="name">employee.kanban</field>
-            <field name="model">custom.employee</field>
-            <field name="arch" type="xml">
-                <kanban string="Employees">
-                    <templates>
-                        <t t-name="kanban-box">
-                            <div class="oe_kanban_card">
-                                <div class="o_kanban_image">
-                                    <img t-att-src="kanban_image('custom.employee', 'image', record.id)" class="oe_kanban_avatar" style="max-height:90px; max-width:90px;" />
-                                </div>
-                                <div class="o_kanban_details">
-                                    <strong><field name="name"/></strong>
-                                    <div><field name="job_title"/></div>
-                                    <div><field name="department"/></div>
-                                    <div><field name="email"/></div>
-                                    <div><field name="phone"/></div>
-                                </div>
+            <!-- Define the kanban view for custom.employee -->
+          <record model="ir.ui.view" id="view_employee_kanban">
+        <field name="name">employee.kanban</field>
+        <field name="model">custom.employee</field>
+        <field name="arch" type="xml">
+            <kanban string="Employees">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('custom.employee', 'image', record.id)" class="oe_kanban_avatar" style="max-height:90px; max-width:90px;" />
                             </div>
-                        </t>
-                    </templates>
-                </kanban>
-            </field>
-        </record>
+                            <div class="o_kanban_details">
+                                <strong><field name="name"/></strong>
+                                <div><field name="department"/></div>
+                                <div><field name="work_email"/></div>
+                                <div><field name="work_phone"/></div>
+                                <div><field name="work_mobile"/></div>
+                                <div><field name="gender"/></div>
+                                <div><field name="notes"/></div>
+                                <div><field name="marital_status"/></div>
+                                <div><field name="date_of_birth"/></div>
+                                <div><field name="nationality"/></div>
+                                <div><field name="identification_no"/></div>
+                                <div><field name="passport_no"/></div>
+                                <div><field name="visa_no"/></div>
+                                <div><field name="work_permit_no"/></div>
+                                <div><field name="visa_expire_date"/></div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
 
         <!-- Define the action to open employee views -->
         <record model="ir.actions.act_window" id="action_employee">
