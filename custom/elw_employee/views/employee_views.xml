@@ -105,8 +105,8 @@
         </record>
 
         <!-- Define the menu items for employees -->
-        <menuitem id="menu_employee_root" name="Employees"/>
-        <menuitem id="menu_employee_list" parent="menu_employee_root" name="Employee List" action="action_employee"/>
+        <menuitem id="menu_employee_root" name="ELW Employees"/>
+        <menuitem id="menu_employee_list" parent="menu_employee_root" name="ELW Employee List" action="action_employee"/>
 
     </data>
 </odoo>

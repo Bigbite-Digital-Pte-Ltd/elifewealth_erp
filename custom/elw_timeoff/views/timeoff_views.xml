@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_timeoff_form">
+            <field name="name">timeoff.form</field>
+            <field name="model">custom.timeoff</field>
+            <field name="arch" type="xml">
+                <form string="Time Off Request">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id"/>
+                                <field name="type"/>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                                <field name="state"/>
+                            </group>
+                            <group>
+                                <field name="notes"/>
+                                <field name="manager_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_timeoff_tree">
+            <field name="name">timeoff.tree</field>
+            <field name="model">custom.timeoff</field>
+            <field name="arch" type="xml">
+                <tree string="Time Off Requests">
+                    <field name="employee_id"/>
+                    <                       <field name="type"/>
+                       <field name="date_from"/>
+                       <field name="date_to"/>
+                       <field name="state"/>
+                   </tree>
+               </field>
+           </record>
+
+           <record model="ir.ui.view" id="view_timeoff_kanban">
+               <field name="name">timeoff.kanban</field>
+               <field name="model">custom.timeoff</field>
+               <field name="arch" type="xml">
+                   <kanban string="Time Off Requests">
+                       <templates>
+                           <t t-name="kanban-box">
+                               <div class="oe_kanban_card">
+                                   <div class="o_kanban_details">
+                                       <strong><field name="employee_id"/></strong>
+                                       <div><field name="type"/></div>
+                                       <div><field name="date_from"/></div>
+                                       <div><field name="date_to"/></div>
+                                       <div><field name="state"/></div>
+                                   </div>
+                               </div>
+                           </t>
+                       </templates>
+                   </kanban>
+               </field>
+           </record>
+
+           <record model="ir.actions.act_window" id="action_timeoff">
+               <field name="name">Time Off Requests</field>
+               <field name="res_model">custom.timeoff</field>
+               <field name="view_mode">tree,form,kanban</field>
+           </record>
+
+           <menuitem id="menu_timeoff_root" name="Time Off"/>
+           <menuitem id="menu_timeoff_list" parent="menu_timeoff_root" name="Time Off Requests" action="action_timeoff"/>
+       </data>
+   </odoo>
+
