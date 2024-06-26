@@ -1,3 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_timeoff_user,user access to Time Off,model_custom_timeoff,base.group_user,1,1,1,0
-access_timeoff_manager,manager access to Time Off,model_custom_timeoff,base.group_hr_manager,1,1,1,1
+access_timeoff_user,user access to Time Off,model_custom_timeoff,base.group_user,1,1,1,1

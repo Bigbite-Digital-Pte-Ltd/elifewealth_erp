@@ -12,7 +12,7 @@ Long description of module's purpose
     'category': 'ELW/ELW Time Off',
     'version': '0.1',
     'depends': [
-        'base', 'hr_holidays'
+        'base', 'hr'
     ],
     'data': [
         'views/timeoff_views.xml',

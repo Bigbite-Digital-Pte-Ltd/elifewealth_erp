@@ -31,7 +31,7 @@
             <field name="arch" type="xml">
                 <tree string="Time Off Requests">
                     <field name="employee_id"/>
-                    <                       <field name="type"/>
+                    <field name="type"/>
                        <field name="date_from"/>
                        <field name="date_to"/>
                        <field name="state"/>
@@ -67,7 +67,7 @@
                <field name="view_mode">tree,form,kanban</field>
            </record>
 
-           <menuitem id="menu_timeoff_root" name="Time Off"/>
+           <menuitem id="menu_timeoff_root" name="ELW Time Off"/>
            <menuitem id="menu_timeoff_list" parent="menu_timeoff_root" name="Time Off Requests" action="action_timeoff"/>
        </data>
    </odoo>
