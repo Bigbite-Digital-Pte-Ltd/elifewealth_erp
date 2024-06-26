@@ -42,6 +42,8 @@ class QualityAlert(models.Model):
                                store=True)
     lot_name = fields.Char(string='Lots/Serials', store=True, compute='_get_lot_ids', inverse='_inverse_lot_ids')
     has_lot_id = fields.Boolean(string='Has Lot ids', related='check_id.has_lot_id', store=True)
+    #  this for doing check by pass inventory
+    lot_info = fields.Char(string='Lot Info', store=True, related="check_id.lot_info")
     stage_id = fields.Many2one('elw.quality.alert.stage', string='Stage', default=_default_stage, store=True, copy=True,
                                ondelete='set null', tracking=True)
     picking_code = fields.Selection(related='picking_id.picking_type_id.code', readonly=True)
@@ -84,10 +86,8 @@ class QualityAlert(models.Model):
             if rec.check_id:
                 check_lot_ids_ = self.env['elw.quality.check'].browse(rec.check_id.id)
                 # print("lot_id_------", rec.lot_ids, rec.lot_name, rec.check_id.id)
-                if rec.picking_code == 'outgoing':
-                    check_lot_ids_ = rec.lot_ids if rec.lot_ids else None
-                if rec.picking_code == 'incoming':
-                    check_lot_name = rec.lot_name if rec.lot_name else None
+                check_lot_ids_ = rec.lot_ids if rec.lot_ids else None
+                check_lot_name = rec.lot_name if rec.lot_name else None
 
     @api.depends('title')
     def _compute_display_name(self):
@@ -111,14 +111,20 @@ class QualityAlert(models.Model):
         return rtn
 
     def unlink(self):
-        for rec in self:
-            if rec.check_id or rec.picking_id:
-                raise ValidationError(_("Can not delete the record that links to Quality Check or Deliveries/Receipts"))
+        self.ensure_one()
+        if self.check_id or self.picking_id:
+            raise ValidationError(_("Can not delete the record that links to Quality Check or Deliveries/Receipts"))
         return super(QualityAlert, self).unlink()
 
-    def action_see_alerts(self):
-        pass
-
-    # this return to the correct ID in quality.check. not sure why
+    # this return to the correct ID in quality.check
     def action_see_check(self):
-        pass
+        return {
+            'name': _('Quality Check'),
+            'res_model': 'elw.quality.check',
+            'res_id': self.check_id.id,  # open the corresponding form
+            # 'domain': [('id', '=', self.alert_ids.ids)],
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            # 'view_mode': 'tree,form',
+            'target': 'current',
+        }
