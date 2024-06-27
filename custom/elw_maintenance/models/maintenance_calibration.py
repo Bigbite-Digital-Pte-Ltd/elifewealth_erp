@@ -77,7 +77,8 @@ class MaintenanceCalibration(models.Model):
     instruction_google_slide = fields.Char('Google Slide', help="Paste the url of your Google Slide. Make sure the access to the document is public.")
     instruction_text = fields.Html('Text')
     reason_for_overdue = fields.Html(string="Reason for Overdue")
-    duplicate_id = fields.Many2one('elw.maintenance.calibration')
+    duplicate_id = fields.Many2one('elw.maintenance.calibration', string="Next Calibration Ref#", store=True)
+    original_id = fields.Many2one('elw.maintenance.calibration', string="Original Ref#", store=True)
 
     @api.onchange('calibration_due_date')
     def _onchange_priority(self):
@@ -214,15 +215,18 @@ class MaintenanceCalibration(models.Model):
             })
             if self.duplicate_id:
                 self.archive = True
+                # archived the original cali record too
+                if self.original_id:
+                    self.original_id.archive = True
                 return {
                     'effect': {
                         'fadeout': 'slow',
-                        'message': (_("A new calibration request %s is created. Please check if all fields are correct", self.duplicate_id.name)),
+                        'message': (_("Next calibration request %s is created. Please check if all fields are correct", self.duplicate_id.name)),
                         'type': 'rainbow_man',
                     }
                 }
             else:
-                raise ValidationError(_("Failed to create a new calibration request for equipment %s", self.equipment_id.name))
+                raise ValidationError(_("Failed to create next calibration request for equipment %s", self.equipment_id.name))
         else:
             raise UserError(_("You cannot change to 'Passed' if this equipment is not in 'In Progress' state"))
 
@@ -231,10 +235,16 @@ class MaintenanceCalibration(models.Model):
         self.ensure_one()
         if self.stage_id.id == 2:
             self.stage_id = 4
+            # duplicate a record for redo this failed calibration
+            self.duplicate_id = self.copy({
+                'technician_doing_calibration_id': False,
+                'calibration_completion_date': False,
+                'original_id': self.id,
+            })
         else:
             raise UserError(_("You cannot change to 'Failed' if this equipment is not in 'In Progress' state"))
 
-    @api.depends('stage_id')
+    # @api.depends('stage_id')
     # def action_reschedule_calibration_overdue(self):
     #     self.ensure_one()
     #     # current_data = self.env['elw.maintenance.calibration'].browse(self.id).copy()
@@ -265,30 +275,27 @@ class MaintenanceCalibration(models.Model):
     #     # print(data)
     #     self.overdue_id = self.env['elw.calibration.overdue'].create(data)
 
-    # def action_see_calibration_overdue(self):
-    #     return {
-    #         'name': _('Calibration Overdue'),
-    #         'res_model': 'elw.calibration.overdue',
-    #         'res_id': self.overdue_id.id,  # open the corresponding form
-    #         # 'domain': [('id', '=', self.alert_ids.ids)],
-    #         'type': 'ir.actions.act_window',
-    #         'view_mode': 'form',
-    #         # 'view_mode': 'tree,form',
-    #         'target': 'current',
-    #     }
-
-    def action_see_new_calibration_request(self):
+    def action_see_next_calibration_request(self):
         return {
-            # 'name': _('Calibration Overdue'),
+            'name': _('Next Calibration Request'),
             'res_model': 'elw.maintenance.calibration',
             'res_id': self.duplicate_id.id,  # open the corresponding form
             # 'domain': [('id', '=', self.alert_ids.ids)],
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
-            # 'view_mode': 'tree,form',
             'target': 'current',
         }
 
+    def action_see_original_calibration_request(self):
+        return {
+            'name': _('Original Calibration Request'),
+            'res_model': 'elw.maintenance.calibration',
+            'res_id': self.original_id.id,  # open the corresponding form
+            # 'domain': [('id', '=', self.alert_ids.ids)],
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'target': 'current',
+        }
 
 class MaintenanceTeam(models.Model):
     _inherit = 'maintenance.team'
