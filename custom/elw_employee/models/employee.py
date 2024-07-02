@@ -1,31 +1,14 @@
-from odoo import models, fields
+from odoo import models, fields, api
 
-class Employee(models.Model):
+class CustomEmployee(models.Model):
     _name = 'custom.employee'
-    _description = 'Custom Employee Model'
+    _inherit = ['hr.employee.base']
 
-    name = fields.Char(string='Name', required=True)
-    work_email = fields.Char(string='Work Email')
-    work_phone = fields.Char(string='Work Phone')
-    work_mobile = fields.Char(string='Work Mobile')
-    department = fields.Many2one('hr.department', string='Department')
-    gender = fields.Selection([
-        ('male', 'Male'),
-        ('female', 'Female'),
-        ('other', 'Other')
-    ], string='Gender')
-    notes = fields.Text(string='Notes')
-    marital_status = fields.Selection([
-        ('single', 'Single'),
-        ('married', 'Married'),
-        ('divorced', 'Divorced'),
-        ('widowed', 'Widowed')
-    ], string='Marital Status')
-    date_of_birth = fields.Date(string='Date of Birth')
-    nationality = fields.Char(string='Nationality (Country)')
-    identification_no = fields.Char(string='Identification No')
-    passport_no = fields.Char(string='Passport No')
-    visa_no = fields.Char(string='Visa No')
-    work_permit_no = fields.Char(string='Work Permit No')
-    visa_expire_date = fields.Date(string='Visa Expire Date')
-    image = fields.Binary(string='Image')
+    parent_id = fields.Many2one('res.partner', string='Parent')
+    child_ids = fields.One2many('custom.employee.child', 'parent_id', string='Children')
+    child_all_count = fields.Integer(string='Number of Children', compute='_compute_subordinates')
+
+    @api.depends('child_ids')
+    def _compute_subordinates(self):
+        for record in self:
+            record.child_all_count = len(record.child_ids)

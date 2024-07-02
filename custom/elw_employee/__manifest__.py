@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 {
     'name': "ELW Employee",
     'summary': "ELW Employee",
     'description': """
-Long description of module's purpose
+    Long description of module's purpose
     """,
     'application': True,
     'sequence': -115,
@@ -12,7 +11,7 @@ Long description of module's purpose
     'category': 'ELW/ELW Employee',
     'version': '0.1',
     'depends': [
-        'base', 'hr',
+        'base', 'hr'
     ],
     'data': [
         'views/employee_views.xml',
