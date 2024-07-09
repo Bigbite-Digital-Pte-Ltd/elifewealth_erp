@@ -15,14 +15,19 @@ class MrpWorkcenter1(models.Model):
     #             ]  # add a chatter
 
     equipment_ids = fields.Many2many('maintenance.equipment', string='Equipment', copy=True)
-
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
     maintenance_ids = fields.One2many('maintenance.request', 'workcenter_id', string='Maintenance', store=True)
     maintenance_count = fields.Integer(compute='_compute_maintenance_count', string="Maintenance Count", store=True)
     maintenance_open_count = fields.Integer(compute='_compute_maintenance_count', string="Current Maintenance", store=True)
     maintenance_team_id = fields.Many2one('maintenance.team', string='Maintenance Team', compute='_compute_maintenance_team_id', store=True, readonly=False,
-                                          check_company=True)
+                                      check_company=True)
     technician_user_id = fields.Many2one('res.users', string='Technician', tracking=True)
+    effective_date = fields.Date(string='Effective Date')
+    expected_mean_time_between_failure = fields.Float(string='Expected Mean Time Between Failure')
+    mean_time_between_failure = fields.Float(string='Mean Time Between Failure')
+    latest_failure = fields.Date(string='Latest Failure')
+    mean_time_to_repair = fields.Float(string='Mean Time To Repair')
+    estimated_next_failure = fields.Date(string='Estimated Next Failure')
 
     @api.depends('company_id')
     def _compute_maintenance_team_id(self):
