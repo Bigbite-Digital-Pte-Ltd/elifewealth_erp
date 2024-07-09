@@ -18,6 +18,13 @@
                             </tree>
                         </field>
                     </page>
+                    <page string="Maintenance" name="maintenance">
+                        <field name="maintenance_ids" widget="many2many">
+                            <tree string="maintenance data" editable="bottom">
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                    </page>
                 </xpath>
 <!--                                 <xpath expr="//field[@name='company_id']" position="after">-->
                 <!--                     <field name="maintenance_ids"/>-->
