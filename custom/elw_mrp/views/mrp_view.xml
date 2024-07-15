@@ -9,12 +9,14 @@
             <field name="inherit_id" ref="mrp.mrp_workcenter_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='capacity']" position="after">
-                    <page string="Equipment" name="equipment">
+                <page string="Equipment" name="equipment">
                         <field name="equipment_ids" widget="many2many">
-                            <tree string="equipment data" editable="bottom">
+                            <tree string="equipment data" editable="bottom" context="{'form_view_ref': 'view_equipment_form'}">
                                 <field name="name"/>
                                 <field name="technician_user_id"/>
                                 <field name="category_id"/>
+                                <field name="mean_time_between_failure"/>
+                                <field name="mean_time_to_repair"/>
                             </tree>
                         </field>
                     </page>
