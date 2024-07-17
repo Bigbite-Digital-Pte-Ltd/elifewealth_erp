@@ -19,7 +19,7 @@ Long description of module's purpose
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['mrp', 'elw_maintenance'],
+    'depends': ['mrp', 'elw_quality'],
 
     # always loaded
     'data': [
@@ -28,6 +28,8 @@ Long description of module's purpose
         'views/mrp_view.xml',
         'views/work_center_view.xml',
         'views/equipment_view.xml'
+        'views/mrp_workcenter_view_inherit.xml',
+        'views/maintenance_view_inherit.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
