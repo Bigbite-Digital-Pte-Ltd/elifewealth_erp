@@ -1,14 +1,20 @@
-from typing import Dict, List
-
 from odoo import models, fields, api, SUPERUSER_ID, _
-import logging
-_logger = logging.getLogger(__name__)
 
-class MrpWorkcenter(models.Model):
-    _name = 'mrp.workcenter'
-    _inherit = ['mrp.workcenter', 'mail.thread', 'mail.activity.mixin']
+# # separate into two inheritance classes to avoid the "equipment_ids" not found error after inheriting 'mail' in MrpWorkcenter1
+# New ValueError: The _name attribute MrpWorkcenter is not valid.
+# class MrpWorkcenter(models.Model):
+#     _inherit = ['mail.thread',
+#                 'mail.activity.mixin',
+#                 ]  # add a chatter
 
-    equipment_ids = fields.One2many('maintenance.equipment', 'workcenter_id', string='Equipment', store=True)
+
+class MrpWorkcenter1(models.Model):
+    _inherit = 'mrp.workcenter'
+    # _inherit = ['mail.thread',
+    #             'mail.activity.mixin',
+    #             ]  # add a chatter
+
+    equipment_ids = fields.Many2many('maintenance.equipment', string='Equipment', copy=True)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
     maintenance_ids = fields.One2many('maintenance.request', 'workcenter_id', string='Maintenance', store=True)
     maintenance_count = fields.Integer(compute='_compute_maintenance_count', string="Maintenance Count", store=True)
