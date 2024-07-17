@@ -18,28 +18,32 @@
         <menuitem id="menu_mrp_reporting_production_analysis"
                   name="Production Analysis"
                   parent= "mrp.menu_mrp_reporting"
-                  action="mrp.mrp_workcenter_kanban_action"
+                  action="action_production_analysis_graph"
                   sequence="3"/>
-<!--                  action="action_production_analysis_graph"-->
-<!--        <record id="action_production_analysis_graph" model="ir.actions.act_window">-->
-<!--            <field name="name">Production Analysis Graph</field>-->
-<!--            <field name="res_model">production.analysis</field>-->
-<!--            <field name="view_mode">graph</field>-->
-<!--            <field name="view_id" ref="view_production_analysis_graph"/>-->
-<!--        </record>-->
 
-<!--        &lt;!&ndash; Define the graph view for Production Analysis &ndash;&gt;-->
-<!--        <record id="view_production_analysis_graph" model="ir.ui.view">-->
-<!--            <field name="name">production.analysis.graph</field>-->
-<!--            <field name="model">production.analysis</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <graph string="Production Analysis" type="bar">-->
-<!--                    <field name="production_date"/>-->
-<!--                    <field name="quantity_produced"/>-->
-<!--                    <field name="product_id" type="row"/>-->
-<!--                </graph>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!-- Define the action for the Production Analysis Graph -->
+            <record id="action_production_analysis_graph" model="ir.actions.act_window">
+                <field name="name">Production Analysis Graph</field>
+                <field name="res_model">production.analysis</field>
+                <field name="view_mode">graph</field>
+                <field name="view_id" ref="view_production_analysis_graph"/>
+            </record>
+
+            <!-- Define the graph view for Production Analysis -->
+            <record id="view_production_analysis_graph" model="ir.ui.view">
+                <field name="name">production.analysis.graph</field>
+                <field name="model">production.analysis</field>
+                <field name="arch" type="xml">
+                    <graph string="Production Analysis" type="bar">
+                        <field name="production_date"/>
+                        <field name="quantity_produced"/>
+                        <field name="product_id" type="row"/>
+                    </graph>
+                </field>
+            </record>
+
+            <!-- Define the graph view for Production Analysis -->
+
         <!-- Mrp add submenu under Planning -->
         <!-- gantt view is provided in EE so skip it now -->
 <!--        <menuitem id="submenu_mrp_workorder"-->

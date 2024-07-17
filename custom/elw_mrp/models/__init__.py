@@ -2,5 +2,6 @@
 from . import mrp_workcenter
 from . import maintenance
 from . import mrp_routing
+from . import production_analysis
 
 
