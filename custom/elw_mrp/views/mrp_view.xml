@@ -15,6 +15,12 @@
                   action="mrp.mrp_workcenter_kanban_action"
                   sequence="8"/>
 
+        <menuitem id="menu_mrp_dashboard"
+                  name="Production Analysis"
+                  parent="mrp.menu_mrp_root_reporting"
+                  action="mrp.mrp_workcenter_kanban_action"
+                  sequence="8"/>
+
         <!-- Mrp add submenu under Planning -->
         <!-- gantt view is provided in EE so skip it now -->
 <!--        <menuitem id="submenu_mrp_workorder"-->
