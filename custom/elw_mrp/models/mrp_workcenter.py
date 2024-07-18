@@ -18,10 +18,10 @@ class MrpWorkcenter(models.Model):
     technician_user_id = fields.Many2one('res.users', string='Technician', tracking=True)
     effective_date = fields.Date(string='Effective Date')
     expected_mean_time_between_failure = fields.Float(string='Expected Mean Time Between Failure')
-    mean_time_between_failure = fields.Float(string='Mean Time Between Failure')
     latest_failure = fields.Date(string='Latest Failure')
-    mean_time_to_repair = fields.Float(string='Mean Time To Repair')
     estimated_next_failure = fields.Date(string='Estimated Next Failure')
+    mean_time_between_failure = fields.Float(string='Mean Time Between Failure')
+    mean_time_to_repair = fields.Float(string='Mean Time To Repair')
 
     # Update the workcenter_id in maintenance.equipment using the original object ID.
     @api.onchange('equipment_ids')

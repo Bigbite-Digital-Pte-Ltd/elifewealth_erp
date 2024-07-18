@@ -12,6 +12,7 @@ class MaintenanceRequest(models.Model):
     # to do: it is not known to link block_workcenter to work_state of mrp.workcenter
     block_workcenter = fields.Boolean(string='Block Workcenter', store=True, copy=True)
 
+
     # below is to add a dynamic domain on product_id
     @api.onchange('workcenter_id', 'maintenance_for')
     def _onchange_workcenter_equipment_id_domain(self):

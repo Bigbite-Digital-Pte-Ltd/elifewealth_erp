@@ -91,8 +91,8 @@ class MaintenanceMixin(models.AbstractModel):
     maintenance_count = fields.Integer(compute='_compute_maintenance_count', string="Maintenance Count", store=True)
     maintenance_open_count = fields.Integer(compute='_compute_maintenance_count', string="Current Maintenance", store=True)
     expected_mtbf = fields.Integer(string='Expected MTBF', help='Expected Mean Time Between Failure')
-    mtbf = fields.Integer(compute='_compute_maintenance_request', string='MTBF', help='Mean Time Between Failure, computed based on done corrective maintenances.')
-    mttr = fields.Integer(compute='_compute_maintenance_request', string='MTTR', help='Mean Time To Repair')
+    mtbf = fields.Integer(compute='_compute_maintenance_request', string='Mean Time Between Failure', help='Mean Time Between Failure, computed based on done corrective maintenances.')
+    mttr = fields.Integer(compute='_compute_maintenance_request', string='Mean Time To Repair', help='Mean Time To Repair')
     estimated_next_failure = fields.Date(compute='_compute_maintenance_request', string='Estimated time before next failure (in days)', help='Computed as Latest Failure Date + MTBF')
     latest_failure_date = fields.Date(compute='_compute_maintenance_request', string='Latest Failure Date')
 
