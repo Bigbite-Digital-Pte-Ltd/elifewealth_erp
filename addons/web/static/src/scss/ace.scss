@@ -1,12 +1,115 @@
+/* Custom styles for Odoo UI */
+
+/* Header styling */
+.o_main_navbar .nav-item,
+.o_main_navbar .nav-link,
+.o_main_navbar {
+    background-color: #00B2E2 !important; /* Soft blue background for a fresh look */
+    color: #FFFFFF !important; /* White text color for clarity */
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15); /* Slightly more pronounced shadow for depth */
+}
+
+/* Header links and text styling */
+.o_main_navbar a {
+    color: #FFFFFF !important; /* White text color for contrast */
+    font-size: 15px; /* Slightly smaller font size for a more refined look */
+    font-weight: 500; /* Medium weight for better readability */
+    text-decoration: none; /* Remove underlines from links */
+    transition: color 0.3s ease; /* Smooth transition effect for link color changes */
+}
+
+.o_main_navbar a:hover {
+    color: #E0F7FA !important; /* Light cyan color on hover for visual feedback */
+}
+
+/* Dropdown toggle button styling */
+.o_main_navbar .dropdown-toggle {
+    background-color: #00B2E2 !important; /* Match header background color */
+    color: #FFFFFF !important; /* Match header text color */
+    border: none; /* Remove border */
+    padding: 10px 15px; /* Adjust padding for better spacing */
+    border-radius: 4px; /* Rounded corners */
+}
+
+/* Dropdown toggle button hover effect */
+.o_main_navbar .dropdown-toggle:hover {
+    background-color: #0093C9 !important; /* Change this to your desired hover color */
+    color: #FFFFFF !important; /* Maintain white text color */
+    transition: background-color 0.3s ease; /* Smooth transition effect */
+}
+
+/* Additional styling for the dropdown menu if needed */
+.dropdown-menu {
+    background-color: #FFFFFF !important; /* Change dropdown menu background color */
+    border: 1px solid #D0D4D8; /* Border for the dropdown menu */
+    border-radius: 4px; /* Rounded corners for the dropdown menu */
+}
+
+/* Dropdown menu item styling */
+.dropdown-menu .dropdown-item {
+    color: #000000 !important; /* Dropdown item text color */
+    padding: 10px 20px; /* Adjust padding for better spacing */
+}
+
+/* Dropdown menu item hover effect */
+.dropdown-menu .dropdown-item:hover {
+    background-color: #E0E7EF !important; /* Dropdown item hover background color */
+    color: #000000 !important; /* Dropdown item hover text color */
+}
+
+/* Sidebar styling */
+.o_sidebar {
+    background-color: #1F1F1F !important; /* Dark gray background for a modern look */
+    color: #B0BEC5 !important; /* Light gray text color for contrast */
+    padding-top: 20px; /* Increased padding for better spacing */
+}
+
+/* Sidebar icon color */
+.o_sidebar .o_app_icon {
+    color: #B0BEC5 !important; /* Light gray color for icons */
+}
+
+/* Primary button styling */
+.btn-primary {
+    background-color: #FF6F61 !important; /* Coral color for a warm and inviting look */
+    border-color: #FF6F61 !important;
+    color: #FFFFFF !important; /* White text color for contrast */
+    border-radius: 4px; /* Rounded corners for a modern button look */
+    padding: 8px 16px; /* Added padding for a more substantial button */
+    font-size: 14px; /* Slightly smaller font size */
+    font-weight: 600; /* Semi-bold font for emphasis */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transitions */
+}
+
+.btn-primary:hover {
+    background-color: #FF8A65 !important; /* Lighter coral color on hover */
+    border-color: #FF8A65 !important;
+}
+
+/* Form view background color */
+.o_form_view {
+    background-color: #F0F4F8 !important; /* Light grayish-blue background for forms */
+    border-radius: 8px; /* Rounded corners for a softer appearance */
+    padding: 20px; /* Added padding for better spacing */
+}
+
+/* ACE editor customizations */
 .ace_editor .ace_qweb {
-    color: orange !important;
+    color: #FF8C00 !important; /* Dark orange for visibility */
 }
+
 .ace_editor .ace_code {
-    color: fuchsia !important;
+    color: #D50032 !important; /* Bright red for code visibility */
 }
+
 .ace_editor.ace-monokai .ace_qweb {
-    color: lightblue !important;
+    color: #80DEEA !important; /* Light cyan for contrast */
 }
+
 .ace_editor.ace-monokai .ace_code {
-    color: #c94bc9 !important;
+    color: #D50032 !important; /* Consistent color for code */
 }
