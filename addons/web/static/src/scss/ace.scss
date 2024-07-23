@@ -61,6 +61,24 @@
     color: #000000 !important; /* Dropdown item hover text color */
 }
 
+/* Styling for dropdown items with o_nav_entry class */
+.dropdown-item.o_nav_entry {
+    background-color: #00B2E2 !important; /* Change this to your desired background color */
+    color: #FFFFFF !important; /* Change this to your desired hover text color */
+    font-weight: normal;
+    border: none; /* Remove border */
+    padding: 10px 15px; /* Adjust padding for better spacing */
+    border-radius: 4px; /* Rounded corners */
+}
+
+/* Dropdown item hover effect with o_nav_entry class */
+.dropdown-item.o_nav_entry:hover {
+    background-color: #0093C9 !important; /* Change this to your desired hover background color */
+    color: #FFFFFF !important; /* Change this to your desired hover text color */
+    transition: background-color 0.3s ease; /* Smooth transition effect */
+}
+
+
 /* Sidebar styling */
 .o_sidebar {
     background-color: #1F1F1F !important; /* Dark gray background for a modern look */
@@ -113,3 +131,4 @@
 .ace_editor.ace-monokai .ace_code {
     color: #D50032 !important; /* Consistent color for code */
 }
+
