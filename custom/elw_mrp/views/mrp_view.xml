@@ -1,24 +1,64 @@
 <odoo>
     <data>
-<!--        <menuitem id="menu_equipment_workcenter"-->
-<!--                  name="Work Center"-->
-<!--                  parent="maintenance.menu_equipment_form"-->
-<!--                  action="elw.mrp.mrp_equipment_workcenter_kanban_action"-->
-<!--                  groups="base.group_user"-->
-<!--                  sequence="1"/>-->
-
+        <!-- Menu Items -->
         <menuitem id="menu_mrp_dashboard"
                   name="Dashboard"
                   parent="mrp.menu_mrp_root"
                   action="mrp.mrp_workcenter_kanban_action"
                   sequence="8"/>
 
-        <menuitem id="menu_mrp_reporting_production_analysis"
-                  name="Production Analysis"
-                  parent="mrp.menu_mrp_reporting"
+        <menuitem id="menu_mrp_planning"
+                  name="Planning"
+                  parent="mrp.menu_mrp_root"
                   action="mrp.mrp_workcenter_kanban_action"
-                  sequence="3"/>
+                  sequence="18"/>
 
+        <menuitem id="menu_mrp_planning_by_workcenter"
+                  name="Planning by Workcenter"
+                  parent="menu_mrp_planning"
+                  action="mrp.mrp_workcenter_kanban_action"
+                  sequence="1"/>
+
+        <menuitem id="menu_mrp_planning_by_production"
+                  name="Planning by Production"
+                  parent="menu_mrp_planning"
+                  action="mrp.mrp_workcenter_kanban_action"
+                  sequence="2"/>
+
+<!-- Graph View -->
+    <record id="view_production_analysis_graph" model="ir.ui.view">
+        <field name="name">production.analysis.graph</field>
+        <field name="model">mrp.production</field>
+        <field name="arch" type="xml">
+            <graph string="Production Analysis" type="line">
+                <field name="product_id"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="production_analysis_action" model="ir.actions.act_window">
+        <field name="name">Production Analysis</field>
+        <field name="res_model">mrp.production</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="view_production_analysis_graph"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Analyze the production performance over time.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_mrp_reporting_production_analysis"
+              name="Production Analysis"
+              parent="mrp.menu_mrp_reporting"
+              action="production_analysis_action"
+              sequence="3"/>
+
+
+        <!-- View Inheritance -->
         <record id="mrp_mrp_production_tree_view_inherit" model="ir.ui.view">
             <field name="name">mrp.mrp.production.tree.view.inherit</field>
             <field name="model">mrp.production</field>
