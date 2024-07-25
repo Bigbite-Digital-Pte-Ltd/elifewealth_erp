@@ -12,19 +12,88 @@
                   parent="mrp.menu_mrp_root"
                   action="mrp.mrp_workcenter_kanban_action"
                   sequence="18"/>
+        <!--/////////////////////////////PLANNING BY WORKCENTER//////////////////////////////////////////////////-->
+<!--        &lt;!&ndash; Gantt View &ndash;&gt;-->
+<!--    <record id="view_mrp_workcenter_gantt" model="ir.ui.view">-->
+<!--        <field name="name">mrp.workcenter.gantt</field>-->
+<!--        <field name="model">mrp.workcenter</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <gantt string="Workcenter Gantt">-->
+<!--                <field name="effective_date"/>-->
+<!--                <field name="estimated_next_failure"/>-->
+<!--            </gantt>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <!-- Calendar View -->
+    <record id="view_mrp_workcenter_calendar" model="ir.ui.view">
+        <field name="name">mrp.workcenter.calendar</field>
+        <field name="model">mrp.workcenter</field>
+        <field name="arch" type="xml">
+            <calendar string="Workcenter Calendar" date_start="effective_date">
+                <field name="name"/>
+                <field name="technician_user_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_mrp_workcenter_tree" model="ir.ui.view">
+        <field name="name">mrp.workcenter.tree</field>
+        <field name="model">mrp.workcenter</field>
+        <field name="arch" type="xml">
+            <tree string="Workcenter List">
+                <field name="name"/>
+                <field name="technician_user_id"/>
+                <field name="maintenance_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Pivot View -->
+    <record id="view_mrp_workcenter_pivot" model="ir.ui.view">
+        <field name="name">mrp.workcenter.pivot</field>
+        <field name="model">mrp.workcenter</field>
+        <field name="arch" type="xml">
+            <pivot string="Workcenter Pivot">
+                <field name="maintenance_count" type="measure"/>
+                <field name="company_id" type="col"/>
+                <field name="effective_date" interval="day" type="row"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Graph View -->
+    <record id="view_mrp_workcenter_graph" model="ir.ui.view">
+        <field name="name">mrp.workcenter.graph</field>
+        <field name="model">mrp.workcenter</field>
+        <field name="arch" type="xml">
+            <graph string="Workcenter Graph" type="bar">
+                <field name="maintenance_count" type="measure"/>
+                <field name="company_id" type="col"/>
+            </graph>
+        </field>
+    </record>
+
+        <record id="action_mrp_planningbyworkcenter" model="ir.actions.act_window">
+                <field name="name">Workcenters</field>
+                <field name="res_model">mrp.workcenter</field>
+                <field name="view_mode">tree,form,calendar,pivot,graph</field>
+                <field name="view_id" ref="view_mrp_workcenter_graph"/>
+        </record>
 
         <menuitem id="menu_mrp_planning_by_workcenter"
                   name="Planning by Workcenter"
                   parent="menu_mrp_planning"
-                  action="mrp.mrp_workcenter_kanban_action"
+                  action="action_mrp_planningbyworkcenter"
                   sequence="1"/>
-
+        <!--/////////////////////////////PLANNING BY PRODUCTION//////////////////////////////////////////////////-->
         <menuitem id="menu_mrp_planning_by_production"
                   name="Planning by Production"
                   parent="menu_mrp_planning"
                   action="mrp.mrp_workcenter_kanban_action"
                   sequence="2"/>
-
+        <!--/////////////////////////////-PRODUCT ANALYSIS//////////////////////////////////////////////////-->
 <!-- Graph View -->
     <record id="view_production_analysis_graph" model="ir.ui.view">
         <field name="name">production.analysis.graph</field>
@@ -32,6 +101,9 @@
         <field name="arch" type="xml">
             <graph string="Production Analysis" type="line">
                 <field name="product_id"/>
+                <field name="quantity_produced"/>
+                <field name = "production_date" />
+                <field name = "is_kits" />
             </graph>
         </field>
     </record>
