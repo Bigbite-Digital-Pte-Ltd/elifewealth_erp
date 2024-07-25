@@ -66,7 +66,7 @@ $o-grays: (
     900: $o-gray-900,
 ) !default;
 
-$o-community-color: #2a9c0d !default;
+$o-community-color: #000000 !default;
 $o-enterprise-color: #714B67 !default;
 $o-enterprise-action-color: #017e84 !default;
 
@@ -114,11 +114,11 @@ $o-headings-font-family: o-add-unicode-support-font(("SF Pro Display", $o-system
 
 // Font colors
 $o-main-text-color: $o-gray-700 !default;
-$o-main-bg-color: #f0eeee !default;
+$o-main-bg-color: #f0eeee !default; // NOT THIS
 $o-main-color-muted: rgba($o-main-text-color, $o-opacity-muted) !default;
 $o-main-headings-color: $o-gray-900 !default;
 $o-main-link-color: darken($o-brand-primary, 5%) !default;
-$o-main-favorite-color: #f3cc00 !default;
+$o-main-favorite-color: #f3cc00 !default; // NOT THIS
 $o-main-code-color: #d2317b !default;
 
 // Components colors
@@ -126,7 +126,7 @@ $o-component-active-color:  $o-gray-900 !default;
 $o-component-active-bg: mix($o-action, $o-gray-100, 20%) !default;
 $o-component-active-border: $o-action !default;
 
-$o-view-background-color: rgb(225, 244, 183) !default;
+$o-view-background-color: rgb(255, 255, 255) !default; // BG color for side bar and each module block
 $o-shadow-color: #303030 !default;
 
 $o-form-lightsecondary: #ccc !default;
