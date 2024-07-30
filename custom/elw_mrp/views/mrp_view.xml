@@ -13,17 +13,6 @@
                   action="mrp.mrp_workcenter_kanban_action"
                   sequence="18"/>
         <!--/////////////////////////////PLANNING BY WORKCENTER//////////////////////////////////////////////////-->
-<!--        &lt;!&ndash; Gantt View &ndash;&gt;-->
-<!--    <record id="view_mrp_workcenter_gantt" model="ir.ui.view">-->
-<!--        <field name="name">mrp.workcenter.gantt</field>-->
-<!--        <field name="model">mrp.workcenter</field>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <gantt string="Workcenter Gantt">-->
-<!--                <field name="effective_date"/>-->
-<!--                <field name="estimated_next_failure"/>-->
-<!--            </gantt>-->
-<!--        </field>-->
-<!--    </record>-->
 
     <!-- Calendar View -->
     <record id="view_mrp_workcenter_calendar" model="ir.ui.view">
@@ -100,6 +89,7 @@
         <field name="model">mrp.production</field>
         <field name="arch" type="xml">
             <graph string="Production Analysis" type="line">
+                <field name="product_name"/>
                 <field name="product_id"/>
                 <field name="quantity_produced"/>
                 <field name = "production_date" />

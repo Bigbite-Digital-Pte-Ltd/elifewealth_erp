@@ -9,6 +9,7 @@ class MrpProduction(models.Model):
     quantity_produced = fields.Float(string='Quantity Produced', compute='_compute_quantity_produced', store=True)
     production_date = fields.Date(string='Production Date', default=fields.Date.context_today)
     is_kits = fields.Boolean(string='Is Kit', compute='_compute_is_kits', store=True)
+    product_name = fields.Char(string='Product Name', compute='_compute_product_name', store=True)
 
     @api.depends('product_id')
     def _compute_is_kits(self):
@@ -36,3 +37,8 @@ class MrpProduction(models.Model):
         action = self.env.ref('module_name.production_analysis_action').read()[0]
         action['domain'] = [('product_id', 'in', self.mapped('product_id').ids)]
         return action
+
+    @api.depends('product_id')
+    def _compute_product_name(self):
+        for record in self:
+            record.product_name = record.product_id.name if record.product_id else ''
