@@ -22,6 +22,9 @@ class MrpWorkcenter(models.Model):
     estimated_next_failure = fields.Date(string='Estimated Next Failure')
     mean_time_between_failure = fields.Float(string='Mean Time Between Failure')
     mean_time_to_repair = fields.Float(string='Mean Time To Repair')
+    expected_duration = fields.Float(string='Expected Duration')
+    duration_per_unit = fields.Float(string='Duration Per Unit')
+    duration_minutes = fields.Float(string='Duration (minutes)')
 
     # Update the workcenter_id in maintenance.equipment using the original object ID.
     @api.onchange('equipment_ids')
