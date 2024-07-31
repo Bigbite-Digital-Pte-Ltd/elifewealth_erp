@@ -13,21 +13,7 @@ class MrpProduction(models.Model):
     cost_per_unit = fields.Float(string='Cost / Unit', compute='_compute_cost_per_unit', store=True)
     duration_minutes = fields.Float(string='Duration (minutes)', compute='_compute_duration_minutes', store=True)
     duration_per_unit = fields.Float(string='Duration Per Unit', compute='_compute_duration_per_unit', store=True)
-    expected_duration = fields.Float(
-        string='Expected Duration',
-        compute='_compute_expected_duration',
-        store=True
-    )
-
-    @api.depends('production_id.workorder_ids')  # Compute based on related work orders
-    def _compute_expected_duration(self):
-        for record in self:
-            if record.production_id:
-                # Sum of expected durations for all related work orders
-                total_duration = sum(workorder.duration_expected for workorder in record.production_id.workorder_ids)
-                record.expected_duration = total_duration
-            else:
-                record.expected_duration = 0.0
+    expected_duration = fields.Float(string='Expected Duration')
 
     @api.depends('product_id', 'production_date')
     def _compute_quantity_produced(self):

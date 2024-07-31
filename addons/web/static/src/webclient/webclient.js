@@ -85,7 +85,8 @@ export class WebClient extends Component {
     _loadDefaultApp() {
         // Selects the first root menu if any
         const root = this.menuService.getMenu("root");
-        const firstApp = root.children[0];
+        //console.log("Root Menu Children:", root.children);
+        const firstApp = root.children[7]; // This line to change default app
         if (firstApp) {
             return this.menuService.selectMenu(firstApp);
         }
