@@ -68,13 +68,29 @@
         <!-- make 'website_sale' invisible in main UI  -->
         <!-- inherit of act_window -->
         <record id="base.open_module_tree" model="ir.actions.act_window">
-            <field name="domain">[('application','=', True),('name', 'not in',
-                ('web_studio','account_accountant','knowledge','timesheet_grid','industry_fsm',
-                'sign', 'helpdesk','quality_control', 'sale_subscription', 'planning', 'mrp_plm',
-                'social', 'hr_appraisal', 'marketing_automation','appointment', 'web_mobile',
-                'stock_barcode','sale_amazon','sale_ebay', 'voip', 'mrp_workorder',
-                'pos_restaurant','mass_mailing', 'website','website_event','mass_mailing_sms',
-                'fleet','website_sale','point_of_sale','data_recycle','survey'))]
+            <field name="domain">[('application', '=', True), ('name', 'not in', [
+                        'mrp_workorder',
+                        'account_accountant',
+                        'knowledge',
+                        'timesheet_grid',
+                        'web_studio',
+                        'industry_fsm',
+                        'sign',
+                        'helpdesk',
+                        'sale_subscription',
+                        'quality_control',
+                        'planning',
+                        'mrp_plm',
+                        'social',
+                        'hr_appraisal',
+                        'marketing_automation',
+                        'appointment',
+                        'web_mobile',
+                        'stock_barcode',
+                        'voip',
+                        'sale_amazon',
+                        'sale_ebay'
+                    ])]
             </field>
         </record>
 

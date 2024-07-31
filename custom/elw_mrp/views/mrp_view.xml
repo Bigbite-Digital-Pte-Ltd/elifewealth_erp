@@ -91,9 +91,8 @@
             <graph string="Production Analysis" type="line">
                 <field name="product_name"/>
                 <field name="product_id"/>
-                <field name="quantity_produced"/>
                 <field name = "production_date" />
-                <field name = "is_kits" />
+                <field name="cost_per_unit"/>
             </graph>
         </field>
     </record>
@@ -120,16 +119,16 @@
               sequence="3"/>
 
 
-        <!-- View Inheritance -->
-        <record id="mrp_mrp_production_tree_view_inherit" model="ir.ui.view">
-            <field name="name">mrp.mrp.production.tree.view.inherit</field>
-            <field name="model">mrp.production</field>
-            <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='date_finished']" position="attributes">
-                    <attribute name="optional">show</attribute>
-                </xpath>
-            </field>
-        </record>
+<!--        &lt;!&ndash; View Inheritance &ndash;&gt;-->
+<!--        <record id="mrp_mrp_production_tree_view_inherit" model="ir.ui.view">-->
+<!--            <field name="name">mrp.mrp.production.tree.view.inherit</field>-->
+<!--            <field name="model">mrp.production</field>-->
+<!--            <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='date_finished']" position="attributes">-->
+<!--                    <attribute name="optional">show</attribute>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
     </data>
 </odoo>
