@@ -4,17 +4,19 @@ from datetime import timedelta
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
-    # Additional fields for analysis
+
     analysis_name = fields.Char(string='Analysis Name')
     quantity_produced = fields.Float(string='Quantity Produced', compute='_compute_quantity_produced', store=True)
     production_date = fields.Date(string='Production Date', default=fields.Date.context_today)
     product_name = fields.Char(string='Product Name', compute='_compute_product_name', store=True)
     total_cost = fields.Float(string='Total Cost', compute='_compute_costs', store=True)
-    cost_per_unit = fields.Float(string='Cost / Unit', compute='_compute_cost_per_unit', store=True)
+    cost_per_unit = fields.Float(string='Average Cost / Unit', compute='_compute_cost_per_unit', store=True)
     duration_minutes = fields.Float(string='Duration (minutes)', compute='_compute_duration_minutes', store=True)
     duration_per_unit = fields.Float(string='Duration Per Unit', compute='_compute_duration_per_unit', store=True)
     expected_duration = fields.Float(string='Expected Duration')
-
+    component_cost_per_unit = fields.Float(string='Average Component Cost / Unit')
+    operation_cost_per_unit = fields.Float(string='Average Operation Cost / Unit')
+    subcontracting_cost_per_unit = fields.Float(string='Average Subcontracting Cost / Unit')
     @api.depends('product_id', 'production_date')
     def _compute_quantity_produced(self):
         for record in self:

@@ -162,39 +162,57 @@
                   sequence="2"/>
         <!--/////////////////////////////-PRODUCT ANALYSIS//////////////////////////////////////////////////-->
 <!-- Graph View -->
-    <record id="view_production_analysis_graph" model="ir.ui.view">
-        <field name="name">production.analysis.graph</field>
-        <field name="model">mrp.production</field>
-        <field name="arch" type="xml">
-            <graph string="Production Analysis" type="line">
-                <field name="product_name"/>
-                <field name="product_id"/>
-                <field name = "production_date" />
-                <field name="cost_per_unit"/>
-            </graph>
-        </field>
-    </record>
+<record id="view_production_analysis_graph" model="ir.ui.view">
+    <field name="name">production.analysis.graph</field>
+    <field name="model">mrp.production</field>
+    <field name="arch" type="xml">
+        <graph string="Production Analysis" type="line">
+            <field name="production_date" interval="week" string="End Date"/>
+            <field name="cost_per_unit" type="measure"/>
+            <field name="product_name"/>
+            <field name="product_id" invisible="1"/>
+        </graph>
+    </field>
+</record>
 
-    <!-- Action -->
-    <record id="production_analysis_action" model="ir.actions.act_window">
-        <field name="name">Production Analysis</field>
-        <field name="res_model">mrp.production</field>
-        <field name="view_mode">graph</field>
-        <field name="view_id" ref="view_production_analysis_graph"/>
-        <field name="context">{}</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Analyze the production performance over time.
-            </p>
-        </field>
-    </record>
+<!-- Pivot View -->
+<record id="view_production_analysis_pivot" model="ir.ui.view">
+    <field name="name">production.analysis.pivot</field>
+    <field name="model">mrp.production</field>
+    <field name="arch" type="xml">
+        <pivot string="Production Analysis">
+            <field name="product_name"/>
+            <field name="product_id"/>
+            <field name="cost_per_unit"/>
+            <field name="component_cost_per_unit"/>
+            <field name="operation_cost_per_unit"/>
+            <field name="subcontracting_cost_per_unit"/>
+            <field name="quantity_produced"/>
+        </pivot>
+    </field>
+</record>
 
-    <!-- Menu Item -->
-    <menuitem id="menu_mrp_reporting_production_analysis"
-              name="Production Analysis"
-              parent="mrp.menu_mrp_reporting"
-              action="production_analysis_action"
-              sequence="3"/>
+<!-- Action -->
+<record id="production_analysis_action" model="ir.actions.act_window">
+    <field name="name">Production Analysis</field>
+    <field name="res_model">mrp.production</field>
+    <field name="view_mode">graph,pivot</field>
+    <field name="view_id" ref="view_production_analysis_graph"/>
+    <field name="context">{}</field>
+    <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+            Analyze the production performance over time.
+        </p>
+    </field>
+</record>
+
+<!-- Menu Item -->
+<menuitem id="menu_mrp_reporting_production_analysis"
+          name="Production Analysis"
+          parent="mrp.menu_mrp_reporting"
+          action="production_analysis_action"
+          sequence="3"/>
+
 
 
 <!--        &lt;!&ndash; View Inheritance &ndash;&gt;-->
