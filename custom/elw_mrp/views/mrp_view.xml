@@ -1,8 +1,8 @@
 <odoo>
     <data>
         <!-- Menu Items -->
-        <menuitem id="menu_mrp_dashboard"
-                  name="Dashboard"
+        <menuitem id="menu_mrp_overview"
+                  name="Overview"
                   parent="mrp.menu_mrp_root"
                   action="mrp.mrp_workcenter_kanban_action"
                   sequence="8"/>
@@ -65,12 +65,14 @@
             <field name="arch" type="xml">
                 <graph string="Workcenter Graph" type="bar">
                     <field name="name" type="row"/>
-                    <field name="maintenance_count" type="measure" string="Total Maintenance"/>
-                    <field name="maintenance_open_count" type="measure" string="Open Maintenance"/>
-                    <field name="expected_mean_time_between_failure" type="measure" string="Expected MTBF"/>
-                    <field name="mean_time_between_failure" type="measure" string="Mean Time Between Failure"/>
-                    <field name="mean_time_to_repair" type="measure" string="Mean Time To Repair"/>
+                    <field name="carried_quantity" type="measure" string="Carried Quantity"/>
+                    <field name="cost_per_hour" type="measure" string="Cost per Hour"/>
+                    <field name="duration_minutes" type="measure" string="Duration (minutes)"/>
+                    <field name="duration_deviation_percentage" type="measure" string="Duration Deviation (%)"/>
+                    <field name="duration_per_unit" type="measure" string="Duration Per Unit"/>
                     <field name="expected_duration" type="measure" string="Expected Duration"/>
+                    <field name="quantity" type="measure" string="Quantity"/>
+                    <field name="count" type="measure" string="Count"/>
                 </graph>
             </field>
         </record>
@@ -99,7 +101,7 @@
             <calendar string="Production Calendar" date_start="production_date">
                 <field name="name"/>
                 <field name="product_name"/>
-                <field name="quantity_produced"/>
+                <field name="quantity"/>
             </calendar>
         </field>
     </record>
@@ -112,7 +114,7 @@
             <tree string="Production List">
                 <field name="name"/>
                 <field name="product_name"/>
-                <field name="quantity_produced"/>
+                <field name="quantity"/>
                 <field name="total_cost"/>
                 <field name="cost_per_unit"/>
             </tree>
@@ -142,8 +144,14 @@
         <field name="model">mrp.production</field>
         <field name="arch" type="xml">
             <graph string="Production Graph" type="bar">
-                <field name="expected_duration" type="measure"/>
-                <field name="product_id" type="row"/>
+                    <field name="name" type="row"/>
+                    <field name="carried_quantity" type="measure" string="Carried Quantity"/>
+                    <field name="cost_per_hour" type="measure" string="Cost per Hour"/>
+                    <field name="duration_minutes" type="measure" string="Duration (minutes)"/>
+                    <field name="duration_deviation_percentage" type="measure" string="Duration Deviation (%)"/>
+                    <field name="duration_per_unit" type="measure" string="Duration Per Unit"/>
+                    <field name="expected_duration" type="measure" string="Expected Duration"/>
+                    <field name="quantity" type="measure" string="Quantity"/>
             </graph>
         </field>
     </record>
@@ -187,7 +195,7 @@
             <field name="component_cost_per_unit"/>
             <field name="operation_cost_per_unit"/>
             <field name="subcontracting_cost_per_unit"/>
-            <field name="quantity_produced"/>
+            <field name="quantity"/>
         </pivot>
     </field>
 </record>

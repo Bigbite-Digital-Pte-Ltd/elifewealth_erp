@@ -4,19 +4,22 @@ from datetime import timedelta
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
-
     analysis_name = fields.Char(string='Analysis Name')
-    quantity_produced = fields.Float(string='Quantity Produced', compute='_compute_quantity_produced', store=True)
+    quantity = fields.Float(string='Quantity Produced', compute='_compute_quantity_produced', store=True)
     production_date = fields.Date(string='Production Date', default=fields.Date.context_today)
     product_name = fields.Char(string='Product Name', compute='_compute_product_name', store=True)
     total_cost = fields.Float(string='Total Cost', compute='_compute_costs', store=True)
     cost_per_unit = fields.Float(string='Average Cost / Unit', compute='_compute_cost_per_unit', store=True)
+    cost_per_hour = fields.Float(string='Cost per Hour', compute='_compute_cost_per_hour', store=True)
     duration_minutes = fields.Float(string='Duration (minutes)', compute='_compute_duration_minutes', store=True)
     duration_per_unit = fields.Float(string='Duration Per Unit', compute='_compute_duration_per_unit', store=True)
     expected_duration = fields.Float(string='Expected Duration')
+    duration_deviation_percentage = fields.Float(string='Duration Deviation (%)', compute='_compute_duration_deviation_percentage', store=True)
+    carried_quantity = fields.Float(string='Carried Quantity', compute='_compute_carried_quantity', store=True)
     component_cost_per_unit = fields.Float(string='Average Component Cost / Unit')
     operation_cost_per_unit = fields.Float(string='Average Operation Cost / Unit')
     subcontracting_cost_per_unit = fields.Float(string='Average Subcontracting Cost / Unit')
+
     @api.depends('product_id', 'production_date')
     def _compute_quantity_produced(self):
         for record in self:
@@ -30,7 +33,7 @@ class MrpProduction(models.Model):
                 produced = self.env['mrp.production'].read_group(
                     domain, ['product_uom_qty:sum'], ['product_id']
                 )
-                record.quantity_produced = sum(item['product_uom_qty'] for item in produced) if produced else 0
+                record.quantity = sum(item['product_uom_qty'] for item in produced) if produced else 0
 
     @api.depends('product_id')
     def _compute_product_name(self):
@@ -52,6 +55,15 @@ class MrpProduction(models.Model):
             else:
                 record.cost_per_unit = 0.0
 
+    @api.depends('duration_minutes')
+    def _compute_cost_per_hour(self):
+        for record in self:
+            if record.duration_minutes > 0:
+                hours = record.duration_minutes / 60
+                record.cost_per_hour = record.total_cost / hours
+            else:
+                record.cost_per_hour = 0.0
+
     @api.depends('expected_duration')
     def _compute_duration_minutes(self):
         for record in self:
@@ -64,6 +76,22 @@ class MrpProduction(models.Model):
                 record.duration_per_unit = record.expected_duration / record.product_qty
             else:
                 record.duration_per_unit = 0.0
+
+    @api.depends('expected_duration', 'duration_minutes')
+    def _compute_duration_deviation_percentage(self):
+        for record in self:
+            if record.expected_duration > 0:
+                expected_duration_minutes = record.expected_duration * 60
+                record.duration_deviation_percentage = ((record.duration_minutes - expected_duration_minutes) / expected_duration_minutes) * 100
+            else:
+                record.duration_deviation_percentage = 0.0
+
+    @api.depends('move_raw_ids')
+    def _compute_carried_quantity(self):
+        for record in self:
+            # Example calculation for carried quantity
+            carried_qty = sum(move.product_uom_qty for move in record.move_raw_ids if move.state == 'done')
+            record.carried_quantity = carried_qty
 
     def action_view_production_analysis(self):
         action = self.env.ref('module_name.production_analysis_action').read()[0]

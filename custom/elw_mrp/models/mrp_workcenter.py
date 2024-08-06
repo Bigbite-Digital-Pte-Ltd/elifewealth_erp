@@ -26,15 +26,57 @@ class MrpWorkcenter(models.Model):
     duration_per_unit = fields.Float(string='Duration Per Unit')
     duration_minutes = fields.Float(string='Duration (minutes)')
 
-    # Update the workcenter_id in maintenance.equipment using the original object ID.
-    @api.onchange('equipment_ids')
-    def onchange_equipment_ids(self):
-        # print('equipment_ids', self.equipment_ids, self.equipment_ids.ids, self, self.id)  # maintenance.equipment(<NewId origin=8>, <NewId origin=13>)
-        # Onchange triggers with a new temporary object; the original object is accessible via self._origin.
-        # eq_obj is a dummy obj which cannot create a record. direct the call to 'write' method in maintenance.equipment to update the record
-        for eq_obj in self.equipment_ids:
-            eq_obj.write({'workcenter_id': self._origin.id})
-            # print('eq_obj info1: ', eq_obj, eq_obj.id, eq_obj.workcenter_id)  # maintenance.equipment(<NewId origin=3>,) NewId_3 mrp.workcenter()
+    carried_quantity = fields.Float(string='Carried Quantity', compute='_compute_carried_quantity', store=True)
+    cost_per_hour = fields.Float(string='Cost per Hour', compute='_compute_cost_per_hour', store=True)
+    duration_deviation_percentage = fields.Float(string='Duration Deviation (%)',
+                                                 compute='_compute_duration_deviation_percentage', store=True)
+    quantity = fields.Float(string='Quantity', compute='_compute_quantity', store=True)
+    count = fields.Integer(string='Count', compute='_compute_count', store=True)
+
+    @api.depends('expected_duration')
+    def _compute_duration_minutes(self):
+        for record in self:
+            record.duration_minutes = record.expected_duration * 60
+
+    @api.depends('expected_duration', 'quantity')
+    def _compute_duration_per_unit(self):
+        for record in self:
+            if record.quantity > 0:
+                record.duration_per_unit = record.expected_duration / record.quantity
+            else:
+                record.duration_per_unit = 0.0
+
+    @api.depends('expected_duration', 'duration_minutes')
+    def _compute_duration_deviation_percentage(self):
+        for record in self:
+            if record.expected_duration:
+                record.duration_deviation_percentage = ((record.duration_minutes - record.expected_duration * 60) / (record.expected_duration * 60)) * 100
+            else:
+                record.duration_deviation_percentage = 0
+
+    @api.depends('maintenance_ids')
+    def _compute_carried_quantity(self):
+        for record in self:
+            record.carried_quantity = sum(maintenance.requested_qty for maintenance in record.maintenance_ids)
+
+    @api.depends('duration_minutes', 'maintenance_ids')
+    def _compute_cost_per_hour(self):
+        for record in self:
+            total_cost = sum(maintenance.cost for maintenance in record.maintenance_ids)
+            if record.duration_minutes > 0:
+                record.cost_per_hour = total_cost / (record.duration_minutes / 60)
+            else:
+                record.cost_per_hour = 0.0
+
+    @api.depends('maintenance_ids')
+    def _compute_quantity(self):
+        for record in self:
+            record.quantity = sum(maintenance.qty_done for maintenance in record.maintenance_ids)
+
+    @api.depends('maintenance_ids')
+    def _compute_count(self):
+        for record in self:
+            record.count = len(record.maintenance_ids)
 
     @api.depends('company_id')
     def _compute_maintenance_team_id(self):
@@ -48,4 +90,7 @@ class MrpWorkcenter(models.Model):
             record.maintenance_count = len(record.maintenance_ids)
             record.maintenance_open_count = len(record.maintenance_ids.filtered(lambda mr: not mr.stage_id.done and not mr.archive))
 
-
+    @api.onchange('equipment_ids')
+    def onchange_equipment_ids(self):
+        for eq_obj in self.equipment_ids:
+            eq_obj.write({'workcenter_id': self._origin.id})
