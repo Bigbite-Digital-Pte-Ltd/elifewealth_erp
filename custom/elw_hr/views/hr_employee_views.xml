@@ -1,0 +1,45 @@
+<odoo>
+    <data>
+<!--        &lt;!&ndash; Form View &ndash;&gt;-->
+<!--        <record id="view_hr_employee_form_inherit" model="ir.ui.view">-->
+<!--            <field name="name">hr.employee.form.inherit</field>-->
+<!--            <field name="model">hr.employee</field>-->
+<!--            <field name="inherit_id" ref="hr.hr_employee_view_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//form" position="inside">-->
+<!--                    <group>-->
+<!--                        <field name="custom_field_1"/>-->
+<!--                        <field name="custom_field_2"/>-->
+<!--                    </group>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Tree View &ndash;&gt;-->
+<!--        <record id="view_hr_employee_tree_inherit" model="ir.ui.view">-->
+<!--            <field name="name">hr.employee.tree.inherit</field>-->
+<!--            <field name="model">hr.employee</field>-->
+<!--            <field name="inherit_id" ref="hr.hr_employee_view_tree"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//tree" position="inside">-->
+<!--                    <field name="custom_field_1"/>-->
+<!--                    <field name="custom_field_2"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Menu Item &ndash;&gt;-->
+<!--        <menuitem id="hr_custom_menu" name="HR Custom" parent="hr.menu_hr_root" sequence="10"/>-->
+
+<!--        &lt;!&ndash; Action &ndash;&gt;-->
+<!--        <record id="action_hr_employee_custom" model="ir.actions.act_window">-->
+<!--            <field name="name">Employees</field>-->
+<!--            <field name="res_model">hr.employee</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="view_id" ref="view_hr_employee_tree_inherit"/>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Submenu Item &ndash;&gt;-->
+<!--        <menuitem id="hr_employee_custom_menu" name="Employees" parent="hr_custom_menu" action="action_hr_employee_custom"/>-->
+    </data>
+</odoo>
