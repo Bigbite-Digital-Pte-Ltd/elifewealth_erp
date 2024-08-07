@@ -7,10 +7,59 @@
                   action="account.open_account_journal_dashboard_kanban"
                   sequence="1"/>
 
-        <menuitem id="menu_accounting_accounting"
+    <menuitem id="menu_accounting_accounting"
                   name="Accounting"
                   parent="account.menu_finance"
                   sequence="4"/>
+    <!--    Journal Subheading    -->
+    <menuitem id="menu_account_journal_subheading"
+          name="Journals"
+          parent="menu_accounting_accounting"
+          sequence="1"/>
+    <menuitem id="menu_account_journalentries"
+                  name="Journal Entries"
+                  parent="menu_account_journal_subheading"
+                  action="account.open_account_journal_dashboard_kanban"
+                  sequence="1"/>
+    <menuitem id="menu_account_journalitems"
+                  name="Journal Items"
+                  parent="menu_account_journal_subheading"
+                  action="account.open_account_journal_dashboard_kanban"
+                  sequence="1"/>
+    <!--    Management Subheading    -->
+    <menuitem id="menu_account_management_subheading"
+          name="Management"
+          parent="menu_accounting_accounting"
+          sequence="1"/>
+    <menuitem id="menu_account_autotrf"
+              name="Automatic Transfers"
+              parent="menu_account_management_subheading"
+              action="account.open_account_journal_dashboard_kanban"
+              sequence="1"/>
+    <menuitem id="menu_account_assets"
+              name="Assets"
+              parent="menu_account_management_subheading"
+              action="account.open_account_journal_dashboard_kanban"
+              sequence="2"/>
+
+    <!--    Actions Subheading   -->
+    <menuitem id="menu_account_actions_subheading"
+          name="Actions"
+          parent="menu_accounting_accounting"
+          sequence="1"/>
+
+    <menuitem id="menu_account_reconcile"
+              name="Reconcile"
+              parent="menu_account_actions_subheading"
+              action="account.open_account_journal_dashboard_kanban"
+              sequence="1"/>
+    <menuitem id="menu_account_lockdates"
+              name="Lock Dates"
+              parent="menu_account_actions_subheading"
+              action="account.open_account_journal_dashboard_kanban"
+              sequence="2"/>
+
+
 
     </data>
 </odoo>
