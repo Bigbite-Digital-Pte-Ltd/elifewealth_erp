@@ -23,6 +23,8 @@ Long description of module's purpose
         ['elw_maintenance',
         'elw_inventory',
         'elw_quality',
+        'elw_accounting',
+         'elw_hr',
         'sale_management',
         'pos_restaurant',
         'account',

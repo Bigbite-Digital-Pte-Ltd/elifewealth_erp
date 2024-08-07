@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+<!--    <record id="view_account_form_inherited" model="ir.ui.view">-->
+<!--        <field name="name">account.form.inherited</field>-->
+<!--        <field name="model">account</field>-->
+<!--        <field name="inherit_id" ref="account.view_account_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <sheet>-->
+<!--                <group>-->
+<!--                    <field name="custom_field"/>-->
+<!--                </group>-->
+<!--            </sheet>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="view_account_tree_inherited" model="ir.ui.view">-->
+<!--        <field name="name">account.tree.inherited</field>-->
+<!--        <field name="model">account.</field>-->
+<!--        <field name="inherit_id" ref="account.view_account_tree"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <field name="code" position="after">-->
+<!--                <field name="custom_field"/>-->
+<!--            </field>-->
+<!--        </field>-->
+<!--    </record>-->
+<!--</odoo>-->
+    </data>
+</odoo>
