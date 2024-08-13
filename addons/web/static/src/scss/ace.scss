@@ -4,7 +4,7 @@
 .o_main_navbar .nav-item,
 .o_main_navbar .nav-link,
 .o_main_navbar {
-    background-color: #00B2E2 !important; /* Soft blue background for a fresh look */
+    background-color: #FC8C03 !important; /* Soft blue background for a fresh look */
     color: #FFFFFF !important; /* White text color for clarity */
     height: 60px;
     display: flex;
@@ -23,12 +23,12 @@
 }
 
 .o_main_navbar a:hover {
-    color: #E0F7FA !important; /* Light cyan color on hover for visual feedback */
+    color: #e37d00 !important; /* Light cyan color on hover for visual feedback */
 }
 
 /* Dropdown toggle button styling */
 .o_main_navbar .dropdown-toggle {
-    background-color: #00B2E2 !important; /* Match header background color */
+    background-color: #FC8C03 !important; /* Match header background color */
     color: #FFFFFF !important; /* Match header text color */
     border: none; /* Remove border */
     padding: 10px 15px; /* Adjust padding for better spacing */
@@ -37,7 +37,7 @@
 
 /* Dropdown toggle button hover effect */
 .o_main_navbar .dropdown-toggle:hover {
-    background-color: #0093C9 !important; /* Change this to your desired hover color */
+    background-color: #e37d00 !important; /* Change this to your desired hover color */
     color: #FFFFFF !important; /* Maintain white text color */
     transition: background-color 0.3s ease; /* Smooth transition effect */
 }
@@ -57,13 +57,13 @@
 
 /* Dropdown menu item hover effect */
 .dropdown-menu .dropdown-item:hover {
-    background-color: #E0E7EF !important; /* Dropdown item hover background color */
+    background-color: #e37d00 !important; /* Dropdown item hover background color */
     color: #000000 !important; /* Dropdown item hover text color */
 }
 
 /* Styling for dropdown items with o_nav_entry class */
 .dropdown-item.o_nav_entry {
-    background-color: #00B2E2 !important; /* Change this to your desired background color */
+    background-color: #FC8C03 !important; /* Change this to your desired background color */
     color: #FFFFFF !important; /* Change this to your desired hover text color */
     font-weight: normal;
     border: none; /* Remove border */
@@ -73,7 +73,7 @@
 
 /* Dropdown item hover effect with o_nav_entry class */
 .dropdown-item.o_nav_entry:hover {
-    background-color: #0093C9 !important; /* Change this to your desired hover background color */
+    background-color: #e37d00 !important; /* Change this to your desired hover background color */
     color: #FFFFFF !important; /* Change this to your desired hover text color */
     transition: background-color 0.3s ease; /* Smooth transition effect */
 }
