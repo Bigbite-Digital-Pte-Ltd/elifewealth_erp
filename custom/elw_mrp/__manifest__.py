@@ -15,7 +15,7 @@ Long description of module's purpose
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
-    'category': 'ELW/ELW Manufacturing',
+    'category': 'ELW',
     'version': '0.1',
 
     # any module necessary for this one to work correctly
@@ -28,6 +28,7 @@ Long description of module's purpose
         'views/mrp_view.xml',
         'views/mrp_workcenter_view_inherit.xml',
         'views/maintenance_view_inherit.xml',
+        'views/mrp_bom_view_inherit.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

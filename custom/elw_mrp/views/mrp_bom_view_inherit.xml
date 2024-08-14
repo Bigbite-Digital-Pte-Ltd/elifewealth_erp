@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+    <record id="view_bom_form_inherit_uom" model="ir.ui.view">
+        <field name="name">mrp.bom.form.inherit.uom</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Locate the product_qty field inside the components tab and add the product_uom_id field right after it -->
+            <xpath expr="//page[@name='components']//tree//field[@name='product_qty']" position="after">
+                <field name="product_uom_id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom"/>
+            </xpath>
+        </field>
+    </record>
+    </data>
+</odoo>

@@ -1,7 +1,7 @@
 {
     'name': 'ELW HR',
     'version': '1.0',
-    'category': 'Human Resources',
+    'category': 'ELW',
     'summary': 'Custom HR module for Odoo',
     'description': """
         A custom HR module to manage employee records and additional features.
@@ -12,6 +12,7 @@
         'security/ir.model.access.csv',
         'views/hr_employee_views.xml',
     ],
+    'license': 'LGPL-3',
     'installable': True,
     'application': True,
 }

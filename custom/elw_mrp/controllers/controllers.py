@@ -1,22 +1,23 @@
-# -*- coding: utf-8 -*-
-# from odoo import http
+from odoo import http
+from odoo.http import request, Response
+import json
 
 
-# class MaterialManagement(http.Controller):
-#     @http.route('/material_management/material_management', auth='public')
-#     def index(self, **kw):
-#         return "Hello, world"
+class ManufacturingAPI(http.Controller):
+    @http.route('/api/print', type='http', auth='user', methods=['GET', 'POST'], csrf=False)
+    def print_message(self, **kwargs):
+            # Extract message, username, and password from request parameters
+            username = kwargs.get('username', 'default_user')
+            password = kwargs.get('password', 'default_pass')
 
-#     @http.route('/material_management/material_management/objects', auth='public')
-#     def list(self, **kw):
-#         return http.request.render('material_management.listing', {
-#             'root': '/material_management/material_management',
-#             'objects': http.request.env['material_management.material_management'].search([]),
-#         })
+            # Create the response dictionary
+            response_data = {
+                'username': username,
+                'password': password
+            }
 
-#     @http.route('/material_management/material_management/objects/<model("material_management.material_management"):obj>', auth='public')
-#     def object(self, obj, **kw):
-#         return http.request.render('material_management.object', {
-#             'object': obj
-#         })
+            # Convert the dictionary to a JSON string
+            response_json = json.dumps(response_data)
 
+            # Return the response as a JSON object
+            return Response(response_json, content_type='application/json;charset=utf-8')

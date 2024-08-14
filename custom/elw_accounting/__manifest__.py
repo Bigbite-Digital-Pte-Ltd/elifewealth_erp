@@ -3,7 +3,7 @@
     'version': '1.0',
     'summary': 'Custom Accounting Module',
     'description': 'A module to manage custom accounting features.',
-    'category': 'ELW/ELW Accounting',
+    'category': 'ELW',
     'author': 'Your Name',
     'website': 'http://www.yourwebsite.com',
     'sequence': -100,
@@ -11,6 +11,7 @@
     'data': [
         'views/accounting.xml',
     ],
+    'license': 'LGPL-3',
     'installable': True,
     'application': True,
     'auto_install': False,

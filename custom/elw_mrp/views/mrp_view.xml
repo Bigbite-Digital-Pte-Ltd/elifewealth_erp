@@ -175,10 +175,6 @@
     <field name="model">mrp.production</field>
     <field name="arch" type="xml">
         <graph string="Production Analysis" type="line">
-            <field name="production_date" interval="week" string="End Date"/>
-            <field name="cost_per_unit" type="measure"/>
-            <field name="product_name"/>
-            <field name="product_id" invisible="1"/>
         </graph>
     </field>
 </record>
@@ -189,13 +185,6 @@
     <field name="model">mrp.production</field>
     <field name="arch" type="xml">
         <pivot string="Production Analysis">
-            <field name="product_name"/>
-            <field name="product_id"/>
-            <field name="cost_per_unit"/>
-            <field name="component_cost_per_unit"/>
-            <field name="operation_cost_per_unit"/>
-            <field name="subcontracting_cost_per_unit"/>
-            <field name="quantity"/>
         </pivot>
     </field>
 </record>

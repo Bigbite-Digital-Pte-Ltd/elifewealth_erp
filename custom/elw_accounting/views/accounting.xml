@@ -59,7 +59,5 @@
               action="account.open_account_journal_dashboard_kanban"
               sequence="2"/>
 
-
-
     </data>
 </odoo>
