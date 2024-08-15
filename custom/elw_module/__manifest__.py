@@ -62,8 +62,6 @@ Long description of module's purpose
 
     # always loaded
     'data': [
-        'security/elw_module_security_data.xml',
-        # 'security/ir.model.access.csv',
         'views/ir_module_view.xml',
     ],
     # only loaded in demonstration mode
