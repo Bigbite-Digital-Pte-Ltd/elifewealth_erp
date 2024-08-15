@@ -28,7 +28,9 @@ Long description of module's purpose
         'views/mrp_view.xml',
         'views/mrp_workcenter_view_inherit.xml',
         'views/maintenance_view_inherit.xml',
-        'views/mrp_bom_view_inherit.xml'
+        'views/mrp_bom_view_inherit.xml',
+        'views/mrp_menu.xml',
+        'views/mrp_actions.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

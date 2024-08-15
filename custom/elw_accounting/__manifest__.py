@@ -9,7 +9,10 @@
     'sequence': -100,
     'depends': ['base', 'account'],
     'data': [
-        'views/accounting.xml',
+        'security/ir.model.access.csv',
+        'views/accounting_views.xml',
+        'views/accounting_actions.xml',
+        'views/accounting_menus.xml'
     ],
     'license': 'LGPL-3',
     'installable': True,

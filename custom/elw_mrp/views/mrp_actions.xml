@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <!--/////////////////////////////PLANNING BY WORKCENTER//////////////////////////////////////////////////-->
+        <record id="action_mrp_planningbyworkcenter" model="ir.actions.act_window">
+            <field name="name">Work Orders Planning</field>
+            <field name="res_model">mrp.workcenter</field>
+            <field name="view_mode">tree,form,calendar,pivot,graph</field>
+            <field name="view_id" ref="view_mrp_workcenter_graph"/>
+        </record>
+
+        <!--/////////////////////////////PLANNING BY PRODUCTION//////////////////////////////////////////////////-->
+
+        <record id="action_mrp_planningbyproduction" model="ir.actions.act_window">
+                <field name="name">Work Orders Planning</field>
+                <field name="res_model">mrp.production</field>
+                <field name="view_mode">tree,form,calendar,pivot,graph</field>
+                <field name="view_id" ref="view_mrp_production_graph"/>
+        </record>
+
+        <!--/////////////////////////////-PRODUCT ANALYSIS//////////////////////////////////////////////////-->
+
+        <record id="production_analysis_action" model="ir.actions.act_window">
+            <field name="name">Production Analysis</field>
+            <field name="res_model">mrp.production</field>
+            <field name="view_mode">graph,pivot</field>
+            <field name="view_id" ref="view_production_analysis_graph"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Analyze the production performance over time.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <menuitem id="menu_mrp_overview"
+                  name="Overview"
+                  parent="mrp.menu_mrp_root"
+                  action="mrp.mrp_workcenter_kanban_action"
+                  sequence="8"/>
+
+        <menuitem id="menu_mrp_planning_subheading"
+          name="Work Orders"
+          parent="mrp.mrp_planning_menu_root"
+          sequence="1"/>
+        <!--/////////////////////////////PLANNING BY WORKCENTER//////////////////////////////////////////////////-->
+        <menuitem id="menu_mrp_planning_by_workcenter"
+                  name="Planning by Workcenter"
+                  parent="menu_mrp_planning_subheading"
+                  action="action_mrp_planningbyworkcenter"
+                  sequence="1"/>
+        <!--/////////////////////////////PLANNING BY PRODUCTION//////////////////////////////////////////////////-->
+        <menuitem id="menu_mrp_planning_by_production"
+                  name="Planning by Production"
+                  parent="menu_mrp_planning_subheading"
+                  action="action_mrp_planningbyproduction"
+                  sequence="2"/>
+        <!--/////////////////////////////-PRODUCT ANALYSIS//////////////////////////////////////////////////-->
+        <!-- Menu Item -->
+        <menuitem id="menu_mrp_reporting_production_analysis"
+                  name="Production Analysis"
+                  parent="mrp.menu_mrp_reporting"
+                  action="production_analysis_action"
+                  sequence="3"/>
+    </data>
+</odoo>

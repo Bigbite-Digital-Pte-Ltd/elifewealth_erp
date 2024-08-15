@@ -1,16 +1,5 @@
 <odoo>
     <data>
-        <!-- Menu Items -->
-        <menuitem id="menu_mrp_overview"
-                  name="Overview"
-                  parent="mrp.menu_mrp_root"
-                  action="mrp.mrp_workcenter_kanban_action"
-                  sequence="8"/>
-
-        <menuitem id="menu_mrp_planning_subheading"
-          name="Work Orders"
-          parent="mrp.mrp_planning_menu_root"
-          sequence="1"/>
         <!--/////////////////////////////PLANNING BY WORKCENTER//////////////////////////////////////////////////-->
 
         <!-- Calendar View -->
@@ -76,152 +65,90 @@
                 </graph>
             </field>
         </record>
-
-
-        <record id="action_mrp_planningbyworkcenter" model="ir.actions.act_window">
-            <field name="name">Work Orders Planning</field>
-            <field name="res_model">mrp.workcenter</field>
-            <field name="view_mode">tree,form,calendar,pivot,graph</field>
-            <field name="view_id" ref="view_mrp_workcenter_graph"/>
-        </record>
-
-
-        <menuitem id="menu_mrp_planning_by_workcenter"
-                  name="Planning by Workcenter"
-                  parent="menu_mrp_planning_subheading"
-                  action="action_mrp_planningbyworkcenter"
-                  sequence="1"/>
         <!--/////////////////////////////PLANNING BY PRODUCTION//////////////////////////////////////////////////-->
 
-<!-- Calendar View -->
-    <record id="view_mrp_production_calendar" model="ir.ui.view">
-        <field name="name">mrp.production.calendar</field>
-        <field name="model">mrp.production</field>
-        <field name="arch" type="xml">
-            <calendar string="Production Calendar" date_start="production_date">
-                <field name="name"/>
-                <field name="product_name"/>
-                <field name="quantity"/>
-            </calendar>
-        </field>
-    </record>
+        <!-- Calendar View -->
+            <record id="view_mrp_production_calendar" model="ir.ui.view">
+                <field name="name">mrp.production.calendar</field>
+                <field name="model">mrp.production</field>
+                <field name="arch" type="xml">
+                    <calendar string="Production Calendar" date_start="production_date">
+                        <field name="name"/>
+                        <field name="product_name"/>
+                        <field name="quantity"/>
+                    </calendar>
+                </field>
+            </record>
 
-    <!-- List View -->
-    <record id="view_mrp_production_tree" model="ir.ui.view">
-        <field name="name">mrp.production.tree</field>
-        <field name="model">mrp.production</field>
-        <field name="arch" type="xml">
-            <tree string="Production List">
-                <field name="name"/>
-                <field name="product_name"/>
-                <field name="quantity"/>
-                <field name="total_cost"/>
-                <field name="cost_per_unit"/>
-            </tree>
-        </field>
-    </record>
+            <!-- List View -->
+            <record id="view_mrp_production_tree" model="ir.ui.view">
+                <field name="name">mrp.production.tree</field>
+                <field name="model">mrp.production</field>
+                <field name="arch" type="xml">
+                    <tree string="Production List">
+                        <field name="name"/>
+                        <field name="product_name"/>
+                        <field name="quantity"/>
+                        <field name="total_cost"/>
+                        <field name="cost_per_unit"/>
+                    </tree>
+                </field>
+            </record>
 
-    <!-- Pivot View -->
-<record id="view_mrp_production_pivot" model="ir.ui.view">
-        <field name="name">mrp.production.pivot</field>
-        <field name="model">mrp.production</field>
-        <field name="arch" type="xml">
-            <pivot string="Production Pivot">
-                    <field name="product_name" type="row"/>
-                    <field name="product_id" type="row"/>
+            <!-- Pivot View -->
+        <record id="view_mrp_production_pivot" model="ir.ui.view">
+                <field name="name">mrp.production.pivot</field>
+                <field name="model">mrp.production</field>
+                <field name="arch" type="xml">
+                    <pivot string="Production Pivot">
+                            <field name="product_name" type="row"/>
+                            <field name="product_id" type="row"/>
 
-                    <!-- Measure fields -->
-                    <field name="expected_duration" type="measure" string="Expected Duration"/>
-                    <field name="duration_per_unit" type="measure" string="Duration Per Unit"/>
-                    <field name="duration_minutes" type="measure" string="Duration (minutes)"/>
-            </pivot>
-        </field>
-    </record>
+                            <!-- Measure fields -->
+                            <field name="expected_duration" type="measure" string="Expected Duration"/>
+                            <field name="duration_per_unit" type="measure" string="Duration Per Unit"/>
+                            <field name="duration_minutes" type="measure" string="Duration (minutes)"/>
+                    </pivot>
+                </field>
+            </record>
 
-    <!-- Graph View -->
-    <record id="view_mrp_production_graph" model="ir.ui.view">
-        <field name="name">mrp.production.graph</field>
-        <field name="model">mrp.production</field>
-        <field name="arch" type="xml">
-            <graph string="Production Graph" type="bar">
-                    <field name="name" type="row"/>
-                    <field name="carried_quantity" type="measure" string="Carried Quantity"/>
-                    <field name="cost_per_hour" type="measure" string="Cost per Hour"/>
-                    <field name="duration_minutes" type="measure" string="Duration (minutes)"/>
-                    <field name="duration_deviation_percentage" type="measure" string="Duration Deviation (%)"/>
-                    <field name="duration_per_unit" type="measure" string="Duration Per Unit"/>
-                    <field name="expected_duration" type="measure" string="Expected Duration"/>
-                    <field name="quantity" type="measure" string="Quantity"/>
-            </graph>
-        </field>
-    </record>
-
-        <record id="action_mrp_planningbyproduction" model="ir.actions.act_window">
-                <field name="name">Work Orders Planning</field>
-                <field name="res_model">mrp.production</field>
-                <field name="view_mode">tree,form,calendar,pivot,graph</field>
-                <field name="view_id" ref="view_mrp_production_graph"/>
+            <!-- Graph View -->
+            <record id="view_mrp_production_graph" model="ir.ui.view">
+                <field name="name">mrp.production.graph</field>
+                <field name="model">mrp.production</field>
+                <field name="arch" type="xml">
+                    <graph string="Production Graph" type="bar">
+                            <field name="name" type="row"/>
+                            <field name="carried_quantity" type="measure" string="Carried Quantity"/>
+                            <field name="cost_per_hour" type="measure" string="Cost per Hour"/>
+                            <field name="duration_minutes" type="measure" string="Duration (minutes)"/>
+                            <field name="duration_deviation_percentage" type="measure" string="Duration Deviation (%)"/>
+                            <field name="duration_per_unit" type="measure" string="Duration Per Unit"/>
+                            <field name="expected_duration" type="measure" string="Expected Duration"/>
+                            <field name="quantity" type="measure" string="Quantity"/>
+                    </graph>
+                </field>
+            </record>
+        <!--/////////////////////////////-PRODUCT ANALYSIS//////////////////////////////////////////////////-->
+        <!-- Graph View -->
+        <record id="view_production_analysis_graph" model="ir.ui.view">
+            <field name="name">production.analysis.graph</field>
+            <field name="model">mrp.production</field>
+            <field name="arch" type="xml">
+                <graph string="Production Analysis" type="line">
+                </graph>
+            </field>
         </record>
 
-        <menuitem id="menu_mrp_planning_by_production"
-                  name="Planning by Production"
-                  parent="menu_mrp_planning_subheading"
-                  action="action_mrp_planningbyproduction"
-                  sequence="2"/>
-        <!--/////////////////////////////-PRODUCT ANALYSIS//////////////////////////////////////////////////-->
-<!-- Graph View -->
-<record id="view_production_analysis_graph" model="ir.ui.view">
-    <field name="name">production.analysis.graph</field>
-    <field name="model">mrp.production</field>
-    <field name="arch" type="xml">
-        <graph string="Production Analysis" type="line">
-        </graph>
-    </field>
-</record>
+        <!-- Pivot View -->
+        <record id="view_production_analysis_pivot" model="ir.ui.view">
+            <field name="name">production.analysis.pivot</field>
+            <field name="model">mrp.production</field>
+            <field name="arch" type="xml">
+                <pivot string="Production Analysis">
+                </pivot>
+            </field>
+        </record>
 
-<!-- Pivot View -->
-<record id="view_production_analysis_pivot" model="ir.ui.view">
-    <field name="name">production.analysis.pivot</field>
-    <field name="model">mrp.production</field>
-    <field name="arch" type="xml">
-        <pivot string="Production Analysis">
-        </pivot>
-    </field>
-</record>
-
-<!-- Action -->
-<record id="production_analysis_action" model="ir.actions.act_window">
-    <field name="name">Production Analysis</field>
-    <field name="res_model">mrp.production</field>
-    <field name="view_mode">graph,pivot</field>
-    <field name="view_id" ref="view_production_analysis_graph"/>
-    <field name="context">{}</field>
-    <field name="help" type="html">
-        <p class="o_view_nocontent_smiling_face">
-            Analyze the production performance over time.
-        </p>
-    </field>
-</record>
-
-<!-- Menu Item -->
-<menuitem id="menu_mrp_reporting_production_analysis"
-          name="Production Analysis"
-          parent="mrp.menu_mrp_reporting"
-          action="production_analysis_action"
-          sequence="3"/>
-
-
-
-<!--        &lt;!&ndash; View Inheritance &ndash;&gt;-->
-<!--        <record id="mrp_mrp_production_tree_view_inherit" model="ir.ui.view">-->
-<!--            <field name="name">mrp.mrp.production.tree.view.inherit</field>-->
-<!--            <field name="model">mrp.production</field>-->
-<!--            <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <xpath expr="//field[@name='date_finished']" position="attributes">-->
-<!--                    <attribute name="optional">show</attribute>-->
-<!--                </xpath>-->
-<!--            </field>-->
-<!--        </record>-->
     </data>
 </odoo>

@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record id="action_account_autotrf" model="ir.actions.act_window">
+            <field name="name">Automatic Transfers</field>
+            <field name="res_model">account.autotrf</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_tree_account_autotrf"/>
+        </record>
+    </data>
+</odoo>

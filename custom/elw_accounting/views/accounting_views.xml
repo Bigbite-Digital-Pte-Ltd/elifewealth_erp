@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <record id="view_tree_account_autotrf" model="ir.ui.view">
+            <field name="name">account.autotrf.tree</field>
+            <field name="model">account.autotrf</field>
+            <field name="arch" type="xml">
+                <tree string="Automatic Transfers">
+                    <field name="name"/>
+                    <field name="start_date"/>
+                    <field name="stop_date"/>
+                    <field name="frequency"/>
+                </tree>
+            </field>
+        </record>
+
+<!--        <record id="view_form_account_autotrf" model="ir.ui.view">-->
+<!--            <field name="name">account.autotrf.form</field>-->
+<!--            <field name="model">account.autotrf</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="Automatic Transfers">-->
+<!--                    <sheet>-->
+<!--                        <group>-->
+<!--                        </group>-->
+<!--                    </sheet>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
+
+    </data>
+</odoo>
