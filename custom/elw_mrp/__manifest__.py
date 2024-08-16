@@ -25,12 +25,14 @@ Long description of module's purpose
     'data': [
         # 'security/elw_module_security_data.xml',
         # 'security/ir.model.access.csv',
+
         'views/mrp_view.xml',
+        'views/mrp_actions.xml',
         'views/mrp_workcenter_view_inherit.xml',
         'views/maintenance_view_inherit.xml',
         'views/mrp_bom_view_inherit.xml',
-        'views/mrp_menu.xml',
-        'views/mrp_actions.xml'
+        'views/mrp_menu.xml'
+
     ],
     # only loaded in demonstration mode
     'demo': [
@@ -38,5 +40,5 @@ Long description of module's purpose
     ],
     'license': 'LGPL-3',
     'installable': True,
-    'auto_install': True,
+    'auto_install': False,
 }
